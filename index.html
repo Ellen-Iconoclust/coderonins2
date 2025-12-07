@@ -7,11 +7,12 @@
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Load Inter Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <!-- Load Lucide Icons for social links -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Load Three.js library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
     <style>
         /* Custom styles for the cyber-samurai theme */
         :root {
@@ -27,6 +28,7 @@
             background-color: var(--color-dark);
             color: var(--color-text);
             min-height: 100vh;
+            /* CRITICAL: Enables smooth scrolling for general navigation and hash links */
             scroll-behavior: smooth;
         }
 
@@ -51,7 +53,8 @@
             align-items: center;
             text-align: center;
             padding: 0 1rem;
-            transition: opacity 0.5s ease-out;
+            /* Added transition for smoother parallax movement */
+            transition: opacity 0.5s ease-out, transform 0.1s linear; 
         }
 
         /* Glassmorphism style for cards (Enhanced Blur and Transparency) */
@@ -141,7 +144,7 @@
             /* Add the glow effect */
             box-shadow: 0 0 5px var(--color-purple), 0 0 15px rgba(124, 58, 237, 0.5);
         }
-
+        
         /* --- AURORA BACKGROUND STYLES (Dimmer and Darker) --- */
         .aurora-container {
             position: absolute;
@@ -246,6 +249,36 @@
             50% { opacity: 0.5; transform: scale(1.05); }
             100% { opacity: 0.8; transform: scale(1); }
         }
+
+        /* --- SCROLL REVEAL STYLES --- */
+
+        /* 1. Title Reveal (Zoom Down Effect) */
+        .title-initial {
+            opacity: 0;
+            transform: translateY(-20px) scale(0.9); /* Start slightly up and zoomed out */
+            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                        transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .title-reveal {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* 2. Content Reveal (Scroll Up Effect) */
+        .content-initial {
+            opacity: 0;
+            transform: translateY(50px); /* Start below the final position */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out; 
+        }
+
+        .content-initial:nth-child(2) { transition-delay: 0.1s; }
+        .content-initial:nth-child(3) { transition-delay: 0.2s; }
+
+        .content-reveal {
+            opacity: 1;
+            transform: translateY(0); /* Move to final position */
+        }
     </style>
 </head>
 
@@ -257,13 +290,13 @@
     <!-- Navbar (The Banner) -->
     <header class="sticky top-0 z-50 bg-[var(--color-dark)] bg-opacity-95 shadow-lg backdrop-blur-sm">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <a href="#home" class="text-2xl font-extrabold text-white-glow hover:text-white transition duration-300">
+            <a href="#home" class="text-2xl font-extrabold text-white-glow hover:text-white transition duration-300 nav-anchor">
                 Code Ronins
             </a>
             <div class="space-x-8 hidden md:flex">
-                <a href="#about" class="nav-link text-white">About</a>
-                <a href="#skills" class="nav-link text-white">Skills</a>
-                <a href="#contact" class="nav-link text-white">Contact</a>
+                <a href="#about" class="nav-link text-white nav-anchor">About</a>
+                <a href="#skills" class="nav-link text-white nav-anchor">Skills</a>
+                <a href="#contact" class="nav-link text-white nav-anchor">Contact</a>
             </div>
             <button id="menu-button" class="md:hidden text-white focus:outline-none">
                 <i data-lucide="menu" class="w-6 h-6"></i>
@@ -271,9 +304,9 @@
         </nav>
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4 space-y-2 bg-[var(--color-dark)]">
-            <a href="#about" class="nav-link block text-white p-2 rounded-lg hover:bg-gray-800">About</a>
-            <a href="#skills" class="nav-link block text-white p-2 rounded-lg hover:bg-gray-800">Skills</a>
-            <a href="#contact" class="nav-link block text-white p-2 rounded-lg hover:bg-gray-800">Contact</a>
+            <a href="#about" class="nav-link block text-white p-2 rounded-lg hover:bg-gray-800 nav-anchor">About</a>
+            <a href="#skills" class="nav-link block text-white p-2 rounded-lg hover:bg-gray-800 nav-anchor">Skills</a>
+            <a href="#contact" class="nav-link block text-white p-2 rounded-lg hover:bg-gray-800 nav-anchor">Contact</a>
         </div>
     </header>
 
@@ -282,15 +315,15 @@
         <!-- Home Section (The Ronin's Arrival) -->
         <section id="home">
             <div id="hero-content">
-                <h1 id="hero-title" class="text-5xl sm:text-7xl lg:text-8xl font-black mb-4 tracking-tight text-white-glow uppercase transition-opacity duration-300">
+                <h1 id="hero-title" class="text-5xl sm:text-7xl lg:text-8xl font-black mb-4 text-white-glow uppercase transition-opacity duration-300">
                     CODE RONINS
                 </h1>
                 <p id="hero-subtitle" class="text-xl sm:text-3xl text-white font-light border-b-2 border-[var(--color-purple)] pb-2 mb-8 max-w-2xl transition-opacity duration-300">
                     Masterless Developers Building the Future.
                 </p>
                 <div id="hero-cta-container" class="transition-opacity duration-300">
-                    <!-- CTA Button still uses glow-effect -->
-                    <a href="#about" class="inline-block px-8 py-3 bg-[var(--color-purple)] text-white font-bold rounded-lg shadow-xl hover:bg-violet-800 transition duration-300 glow-effect text-lg">
+                    <!-- Updated CTA to use the smooth scroll handler -->
+                    <a href="#about" class="inline-block px-8 py-3 bg-[var(--color-purple)] text-white font-bold rounded-lg shadow-xl hover:bg-violet-800 transition duration-300 glow-effect text-lg nav-anchor">
                         Discover the Philosophy <i data-lucide="arrow-right" class="w-5 h-5 inline ml-2"></i>
                     </a>
                 </div>
@@ -311,12 +344,12 @@
         
             <!-- About Section (The Philosophy) -->
             <section id="about" class="pt-20 pb-16">
-                <h2 class="text-4xl sm:text-5xl font-extrabold text-center mb-12 text-[var(--color-purple)] tracking-wider">
-                    <!-- Applied glowing-underline wrapper -->
+                <!-- Title with Reveal Class -->
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-center mb-12 text-white-glow tracking-wider title-initial">
                     <span class="glowing-underline">The Philosophy</span>
                 </h2>
-                <!-- Applied glass-card class and subtle-hover to remove glow/scale on hover -->
-                <div class="glass-card subtle-hover rounded-xl p-8 lg:p-12 max-w-4xl mx-auto">
+                <!-- Content with Reveal Class -->
+                <div class="glass-card subtle-hover rounded-xl p-8 lg:p-12 max-w-4xl mx-auto content-initial">
                     <p class="text-lg leading-relaxed">
                         We are a team of masterless developers, constantly building and evolving without masters - true to our Ronin name. Each of us brings unique skills and perspectives, united by our passion for creating innovative digital solutions. We build not for glory, but for impact - crafting code that solves real problems and creates meaningful experiences.
                     </p>
@@ -325,14 +358,15 @@
 
             <!-- Skills Section -->
             <section id="skills" class="pt-16 pb-16">
-                <h2 class="text-4xl sm:text-5xl font-extrabold text-center mb-12 text-white tracking-wider">
-                    <!-- Applied glowing-underline wrapper -->
+                <!-- Title with Reveal Class -->
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-center mb-12 text-white-glow tracking-wider title-initial">
                     <span class="glowing-underline">Skills</span>
                 </h2>
+                <!-- Content grid with Reveal Class -->
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     
-                    <!-- Technique Card 1: Front-End (Uses glow-effect) -->
-                    <div class="glass-card rounded-xl p-6 shadow-xl glow-effect">
+                    <!-- Technique Card 1: Front-End -->
+                    <div id="skill-card-1" class="glass-card rounded-xl p-6 shadow-xl glow-effect content-initial" data-delay="0">
                         <div class="flex items-center mb-4">
                             <i data-lucide="layout-grid" class="w-8 h-8 text-white-glow mr-3"></i>
                             <h3 class="text-2xl font-semibold text-white">The Art of Form (Frontend)</h3>
@@ -344,8 +378,8 @@
                         </ul>
                     </div>
 
-                    <!-- Technique Card 2: Back-End (Uses glow-effect) -->
-                    <div class="glass-card rounded-xl p-6 shadow-xl glow-effect">
+                    <!-- Technique Card 2: Back-End -->
+                    <div id="skill-card-2" class="glass-card rounded-xl p-6 shadow-xl glow-effect content-initial" data-delay="100">
                         <div class="flex items-center mb-4">
                             <i data-lucide="sword" class="w-8 h-8 text-white-glow mr-3"></i>
                             <h3 class="text-2xl font-semibold text-white">The Way of the Blade (Backend)</h3>
@@ -357,8 +391,8 @@
                         </ul>
                     </div>
 
-                    <!-- Technique Card 3: Database & Cloud (Uses glow-effect) -->
-                    <div class="glass-card rounded-xl p-6 shadow-xl glow-effect">
+                    <!-- Technique Card 3: Database & Cloud -->
+                    <div id="skill-card-3" class="glass-card rounded-xl p-6 shadow-xl glow-effect content-initial" data-delay="200">
                         <div class="flex items-center mb-4">
                             <i data-lucide="shield" class="w-8 h-8 text-white-glow mr-3"></i>
                             <h3 class="text-2xl font-semibold text-white">The Fortress Walls (Infrastructure)</h3>
@@ -374,12 +408,12 @@
 
             <!-- Contact Section -->
             <section id="contact" class="pt-16 pb-20">
-                <h2 class="text-4xl sm:text-5xl font-extrabold text-center mb-12 text-white tracking-wider">
-                    <!-- Applied glowing-underline wrapper -->
+                <!-- Title with Reveal Class -->
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-center mb-12 text-white-glow tracking-wider title-initial">
                     <span class="glowing-underline">Join our Journey</span>
                 </h2>
-                <!-- Card uses subtle-hover to remove pop/glow -->
-                <div class="glass-card rounded-xl p-8 shadow-2xl subtle-hover max-w-2xl mx-auto text-center">
+                <!-- Content with Reveal Class -->
+                <div class="glass-card rounded-xl p-8 shadow-2xl subtle-hover max-w-2xl mx-auto text-center content-initial">
                     <!-- New description -->
                     <p class="text-lg mb-6 text-gray-300">
                         Ready to build something extraordinary together? We're always looking for new challenges and opportunities to create impactful solutions. Let's combine our skills and vision to build the future.
@@ -390,7 +424,7 @@
                         Send the Message Scroll
                     </a>
 
-                    <!-- Social Icons (Removed glow-effect from icons for dim/dark look) -->
+                    <!-- Social Icons -->
                     <div class="mt-8 pt-6 border-t border-gray-700 flex justify-center space-x-6">
                         <a href="https://github.com/coderonin" target="_blank" class="text-white hover:text-[var(--color-purple)] transition duration-300 p-3 rounded-full">
                             <i data-lucide="github" class="w-7 h-7"></i>
@@ -418,16 +452,25 @@
         // Initialize Lucide icons
         lucide.createIcons();
 
-        // --- THREE.JS IMPLEMENTATION ---
+        // --- GLOBAL DOM REFERENCES & THREE.JS VARIABLES ---
 
-        let scene, camera, renderer, particles, pointLight, scrollGlow, vibranceDot, glowDotMesh, scrollY = 0, targetZ = 0; 
+        let scene, camera, renderer, particles, pointLight, scrollGlow, vibranceDot, glowDotMesh, curlyLine, scrollY = 0, targetZ = 0; 
+        
+        // DOM elements for fading and parallax
+        const heroContent = document.getElementById('hero-content');
+        let heroTitle;
+        let heroSubtitle;
+        let heroCtaContainer;
+
         const PURPLE_COLOR = 0x7C3AED;
         const WHITE_COLOR = 0xFFFFFF;
         const PARTICLE_COUNT = 1000;
-        const TRANSITION_HEIGHT = window.innerHeight * 0.7; // Start transition when scrolled 70% of viewport height
+        const TRANSITION_HEIGHT = window.innerHeight * 0.7; // Start hero fade transition when scrolled 70% of viewport height
         
-        // DOM elements for fading
-        const heroContent = document.getElementById('hero-content');
+        // Define the range for the curly line animation
+        const LINE_TRANSITION_START = window.innerHeight * 0.5; // Start effect halfway through hero
+        const LINE_TRANSITION_END = window.innerHeight * 2.5; // End effect well into the About section
+
         
         function customTween(obj, prop, endVal, durationMs, onComplete) {
             const startVal = obj[prop];
@@ -491,35 +534,53 @@
             vibranceDot.position.set(-10, 10, -5); // Position top-left
             scene.add(vibranceDot);
 
-            // 3b. VISIBLE GLOW DOT SPRITE: Replaced Mesh with Sprite for guaranteed billboard rendering
+            // 3b. VISIBLE GLOW DOT SPRITE
             const glowDotMaterial = new THREE.SpriteMaterial({
                 color: PURPLE_COLOR,
                 transparent: true,
-                opacity: 0, // Start invisible
+                opacity: 0, 
                 blending: THREE.AdditiveBlending,
-                depthTest: false, // Essential for rendering over particles
-                depthWrite: false, // Essential for rendering over particles
+                depthTest: false, 
+                depthWrite: false, 
             });
             
-            // glowDotMesh is now a Sprite
             glowDotMesh = new THREE.Sprite(glowDotMaterial);
-            glowDotMesh.scale.set(5, 5, 1); // Make it a noticeable size
-            glowDotMesh.position.copy(vibranceDot.position); // Same position as the light source
+            glowDotMesh.scale.set(5, 5, 1); 
+            glowDotMesh.position.copy(vibranceDot.position); 
             scene.add(glowDotMesh);
 
 
-            // 4. Spot Light (The pure light source for general scene lighting)
+            // 4. Spot Light (General scene lighting)
             scrollGlow = new THREE.SpotLight(PURPLE_COLOR, 0, 0, Math.PI / 4, 0.5, 0.5);
-            scrollGlow.position.set(0, 50, 0); // Position high above the content
-            scrollGlow.target.position.set(0, 0, 0); // Point downwards
-            scrollGlow.distance = 200; // Affects a large area
-            scrollGlow.angle = Math.PI / 3; // Wide angle
-            scrollGlow.penumbra = 0.5; // Soft edge
+            scrollGlow.position.set(0, 50, 0); 
+            scrollGlow.target.position.set(0, 0, 0); 
+            scrollGlow.distance = 200; 
+            scrollGlow.angle = Math.PI / 3; 
+            scrollGlow.penumbra = 0.5; 
             scene.add(scrollGlow);
             scene.add(scrollGlow.target);
 
+            // 5. Curly Scrolling Line (Reverted to THREE.Line for stability)
+            const curvePoints = 200; // Increased points for smoothness
+            const lineGeometry = new THREE.BufferGeometry();
+            // We use 3 * curvePoints because we're defining points in 3D space
+            const linePositions = new Float32Array(curvePoints * 3); 
+            lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3).setUsage(THREE.DynamicDrawUsage));
 
-            // Initial flash animation (retained)
+            // Using LineBasicMaterial, but forcing it to be highly emissive for visibility
+            const lineMaterial = new THREE.LineBasicMaterial({
+                color: PURPLE_COLOR,
+                transparent: true,
+                opacity: 0,
+                blending: THREE.AdditiveBlending,
+                linewidth: 5 // NOTE: This value is often ignored by WebGLRenderer, we compensate with scaling in onScroll
+            });
+            curlyLine = new THREE.Line(lineGeometry, lineMaterial);
+            curlyLine.frustumCulled = false; // Important: ensure line is always rendered even if not fully visible
+            scene.add(curlyLine);
+
+
+            // Initial flash animation 
             customTween(pointLight, 'intensity', 1.5, 1500, () => {
                 customTween(pointLight, 'intensity', 0.5, 5000); 
             });
@@ -529,7 +590,7 @@
             window.addEventListener('scroll', onScroll, false);
             animate();
             
-            // Mobile Menu Toggle Fix: Added logic for the mobile menu
+            // Mobile Menu Toggle Fix
             const menuButton = document.getElementById('menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
 
@@ -547,39 +608,95 @@
         function onScroll() {
             scrollY = window.scrollY;
             
-            // Calculate scroll factor (0 to 1) for transition
+            // 1. Calculate scroll factor (0 to 1) for Hero Fade
             const scrollFactor = Math.min(1, scrollY / TRANSITION_HEIGHT);
 
-            // 1. Fade Hero Text
-            // Fade slightly slower (multiplier 1.5) to prevent accidental disappearance when near the top.
-            heroContent.style.opacity = Math.max(0, 1 - scrollFactor * 1.5); 
+            // Fade Hero Text (Adjusted factor from 1.5 to 1.2 to allow the parallax effect to be more noticeable)
+            heroContent.style.opacity = Math.max(0, 1 - scrollFactor * 1.2); 
 
-            // 2. Adjust Floating Particles visibility and Camera position
+            // Adjust Floating Particles visibility and Camera position
             particles.material.opacity = Math.max(0, 0.7 - scrollFactor * 2);
             targetZ = -scrollFactor * 50;
+            
+            // --- Parallax Depth Effect on Hero Content ---
+            if (heroTitle && heroSubtitle && heroCtaContainer) {
+                const parallaxSpeedBase = 0.3; // Base speed for parallax
+                
+                // Furthest back (moves slowest)
+                const pFactorTitle = scrollY * parallaxSpeedBase * 1.0; 
+                // Mid distance
+                const pFactorSubtitle = scrollY * parallaxSpeedBase * 2.0; 
+                // Closest to viewer (moves fastest)
+                const pFactorCta = scrollY * parallaxSpeedBase * 3.0;    
 
-            // 3. Control Scroll Glow Intensity and Vibrance Dot Intensity
+                // Apply positive Y translation to make them move down as the user scrolls down
+                heroTitle.style.transform = `translateY(${pFactorTitle}px)`;
+                heroSubtitle.style.transform = `translateY(${pFactorSubtitle}px)`;
+                heroCtaContainer.style.transform = `translateY(${pFactorCta}px)`;
+            }
+
+
+            // 2. Control Scroll Glow Intensity and Vibrance Dot Intensity
             const glowStartFactor = 0.4;
             let glowValue = 0; // Value from 0 to 1 for smooth transition
 
             if (scrollFactor > glowStartFactor) {
-                // Map the scroll factor (from 0.4 to 1) to a value from 0 to 1
                 const glowTransition = (scrollFactor - glowStartFactor) / (1 - glowStartFactor);
                 glowValue = Math.min(1.0, glowTransition); 
             }
             
-            // Set the general scene light intensity (max 2.0)
             scrollGlow.intensity = glowValue * 2.0; 
-
-            // Set the vibrance dot light intensity (high max 10.0 for strong particle illumination)
             vibranceDot.intensity = glowValue * 10.0; 
             
-            // Set the visible glow dot properties (now a Sprite)
             if (glowDotMesh) {
-                // Sprites automatically billboard, no need for lookAt
-                // Set the visible opacity and slightly scale it up as it gets brighter
-                glowDotMesh.material.opacity = glowValue * 1.0; // Max opacity 100%
-                glowDotMesh.scale.setScalar(5 + glowValue * 5); // Base size 5, scales up to 10
+                glowDotMesh.material.opacity = glowValue * 1.0; 
+                glowDotMesh.scale.setScalar(5 + glowValue * 5); 
+            }
+            
+            // 3. Curly Line Animation Logic
+            if (curlyLine) {
+                const lineScrollRange = LINE_TRANSITION_END - LINE_TRANSITION_START;
+                // lineScrollProgress goes from 0 (start of effect) to 1 (end of effect)
+                const lineScrollProgress = Math.min(1, Math.max(0, (scrollY - LINE_TRANSITION_START) / lineScrollRange));
+
+                const linePositionsAttribute = curlyLine.geometry.attributes.position;
+                const points = linePositionsAttribute.array;
+                const curvePoints = linePositionsAttribute.count / 3;
+
+                const maxHeight = 120; // Increased height for more dramatic effect
+                const maxCurl = 40;    // Increased curl amplitude for more noticeable wave
+                const zDepth = -15;    // Closer to camera
+
+                for (let i = 0; i < curvePoints; i++) {
+                    const t = i / (curvePoints - 1); // Normalized position along the line (0 to 1)
+                    
+                    if (t > lineScrollProgress) {
+                        // Collapse segments that haven't been 'unfurled' yet
+                        points[i * 3 + 0] = 0;
+                        points[i * 3 + 1] = 0;
+                        points[i * 3 + 2] = zDepth;
+                        continue;
+                    }
+                    
+                    // Y Position: Line starts at top (0) and extends down 
+                    const yPos = maxHeight * t; 
+
+                    // X Position (The Curl): Curl reaches max amplitude at 50% scroll.
+                    const curlAmplitude = maxCurl * Math.sin(lineScrollProgress * Math.PI); 
+                    // 3 full waves along the line length (t * 3 * PI)
+                    const xOffset = curlAmplitude * Math.sin(t * Math.PI * 3); 
+
+                    points[i * 3 + 0] = xOffset;
+                    points[i * 3 + 1] = -yPos - 5; // Y is negative to move downwards + slight offset
+                    points[i * 3 + 2] = zDepth;
+                }
+
+                linePositionsAttribute.needsUpdate = true;
+                curlyLine.geometry.setDrawRange(0, curvePoints * 3); // Ensure all points are included in draw range
+
+                // Line Opacity and Scale: Fade in and out with the scroll progress
+                curlyLine.material.opacity = Math.min(1.0, lineScrollProgress * 10); 
+                curlyLine.scale.setScalar(1 + lineScrollProgress * 3.0); 
             }
         }
 
@@ -592,20 +709,102 @@
             // Update Floating Particles: subtle rotation
             particles.rotation.y += 0.0005;
             particles.rotation.x += 0.0003;
+            
+            // Subtle rotation on the line for added dynamism
+            if (curlyLine) {
+                 curlyLine.rotation.y += 0.001; 
+            }
 
             // Light update (subtle flicker)
             pointLight.intensity = Math.max(0.0, pointLight.intensity + (Math.random() - 0.5) * 0.01);
             
             renderer.render(scene, camera);
         }
+        
+        // --- SMOOTH SCROLL AND INTERSECTION OBSERVER LOGIC ---
+
+        function setupSmoothScroll() {
+            // Select all elements that act as internal links
+            const anchorLinks = document.querySelectorAll('.nav-anchor');
+            
+            anchorLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Prevent default hash jump
+                    e.preventDefault(); 
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        // Use scrollIntoView with smooth behavior
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start' // Align the top of the element to the top of the viewport
+                        });
+                        
+                        // Close mobile menu if open
+                        const mobileMenu = document.getElementById('mobile-menu');
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+        }
+        
+        function setupScrollReveal() {
+            // Select all titles and content that need to be revealed
+            const elementsToObserve = [
+                ...document.querySelectorAll('.title-initial'),
+                ...document.querySelectorAll('.content-initial')
+            ];
+            
+            const observerOptions = {
+                root: null, // relative to the viewport
+                rootMargin: '0px',
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+                        
+                        // Determine the reveal class based on the initial class
+                        const revealClass = target.classList.contains('title-initial') ? 'title-reveal' : 'content-reveal';
+                        
+                        // Handle staggered delay for content cards
+                        const delay = parseInt(target.getAttribute('data-delay') || '0', 10);
+
+                        setTimeout(() => {
+                            target.classList.remove(target.classList.contains('title-initial') ? 'title-initial' : 'content-initial');
+                            target.classList.add(revealClass);
+                            observer.unobserve(target);
+                        }, delay);
+                    }
+                });
+            }, observerOptions);
+
+            elementsToObserve.forEach(el => {
+                observer.observe(el);
+            });
+        }
 
         window.addEventListener('load', function() {
+            // Get DOM elements for parallax
+            heroTitle = document.getElementById('hero-title');
+            heroSubtitle = document.getElementById('hero-subtitle');
+            heroCtaContainer = document.getElementById('hero-cta-container');
+
             lucide.createIcons();
             if (typeof THREE !== 'undefined') {
                 initThreeJS();
             } else {
                 console.error("Three.js failed to load.");
             }
+            
+            setupSmoothScroll();
+            setupScrollReveal(); 
         });
     </script>
 </body>
