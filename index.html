@@ -623,11 +623,11 @@
                 const parallaxSpeedBase = 0.3; // Base speed for parallax
                 
                 // Furthest back (moves slowest)
-                const pFactorTitle = scrollY * parallaxSpeedBase * 1.0; 
+                const pFactorTitle = scrollY * parallaxSpeedBase * 2.0; 
                 // Mid distance
-                const pFactorSubtitle = scrollY * parallaxSpeedBase * 2.0; 
+                const pFactorSubtitle = scrollY * parallaxSpeedBase * 3.0; 
                 // Closest to viewer (moves fastest)
-                const pFactorCta = scrollY * parallaxSpeedBase * 3.0;    
+                const pFactorCta = scrollY * parallaxSpeedBase * 4.0;    
 
                 // Apply positive Y translation to make them move down as the user scrolls down
                 heroTitle.style.transform = `translateY(${pFactorTitle}px)`;
