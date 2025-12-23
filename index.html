@@ -42,16 +42,41 @@
             background: linear-gradient(135deg, var(--ronin-red) 0%, #b01e45 100%);
         }
 
-        /* Continuous Carousel Logic */
-        @keyframes scroll {
+        /* Improved Continuous Carousel */
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            mask-image: linear-gradient(
+                to right,
+                transparent,
+                black 10%,
+                black 90%,
+                transparent
+            );
+        }
+
+        @keyframes scroll-left {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
+        }
+
+        @keyframes scroll-right {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
         }
 
         .carousel-track {
             display: flex;
             width: max-content;
-            animation: scroll 25s linear infinite;
+        }
+
+        .frontend-track {
+            animation: scroll-left 30s linear infinite;
+        }
+
+        .backend-track {
+            animation: scroll-right 25s linear infinite;
         }
 
         .carousel-track:hover {
@@ -129,6 +154,15 @@
             transform: translateY(-10px);
         }
 
+        .game-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .game-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(255, 46, 99, 0.3);
+        }
+
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--void-black); }
@@ -151,7 +185,6 @@
             <a href="#team" class="hover:text-[var(--neon-cyan)] transition">.team()</a>
             <a href="#creations" class="hover:text-[var(--neon-cyan)] transition">.creations()</a>
         </div>
-        <!-- FIXED: Lead to Join Our Journey section -->
         <a href="#join" class="mono text-xs border border-[var(--ronin-red)] px-4 py-2 text-[var(--ronin-red)] hover:bg-[var(--ronin-red)] hover:text-white transition">CONNECT</a>
     </nav>
 
@@ -196,7 +229,7 @@
         </div>
     </section>
 
-    <!-- Skills Section -->
+    <!-- Skills Section with Improved Carousel -->
     <section id="skills" class="py-24 overflow-hidden">
         <div class="max-w-6xl mx-auto px-6 mb-16">
             <h2 class="mono text-2xl text-[var(--neon-cyan)] mb-2">02. ARSENAL</h2>
@@ -206,8 +239,9 @@
         <!-- Frontend Carousel -->
         <div class="mb-12">
             <h3 class="mono text-center text-sm mb-6 uppercase tracking-widest opacity-50 text-[var(--neon-cyan)]">Frontend & Mobile</h3>
-            <div class="carousel-container relative">
+            <div class="carousel-container">
                 <div class="carousel-track frontend-track">
+                    <!-- Frontend skills - duplicated for seamless loop -->
                     <div class="skill-circle">
                         <i data-lucide="layout" class="text-[var(--neon-cyan)] mb-1"></i>
                         <span class="mono text-[10px]">HTML5</span>
@@ -232,7 +266,15 @@
                         <i data-lucide="cpu" class="text-[var(--neon-cyan)] mb-1"></i>
                         <span class="mono text-[10px]">REACT</span>
                     </div>
-                    <!-- Clones -->
+                    <div class="skill-circle">
+                        <i data-lucide="box" class="text-[var(--neon-cyan)] mb-1"></i>
+                        <span class="mono text-[10px]">NEXT.JS</span>
+                    </div>
+                    <div class="skill-circle">
+                        <i data-lucide="zap" class="text-[var(--neon-cyan)] mb-1"></i>
+                        <span class="mono text-[10px]">VUE</span>
+                    </div>
+                    <!-- Duplicate set for seamless loop -->
                     <div class="skill-circle">
                         <i data-lucide="layout" class="text-[var(--neon-cyan)] mb-1"></i>
                         <span class="mono text-[10px]">HTML5</span>
@@ -256,6 +298,14 @@
                     <div class="skill-circle">
                         <i data-lucide="cpu" class="text-[var(--neon-cyan)] mb-1"></i>
                         <span class="mono text-[10px]">REACT</span>
+                    </div>
+                    <div class="skill-circle">
+                        <i data-lucide="box" class="text-[var(--neon-cyan)] mb-1"></i>
+                        <span class="mono text-[10px]">NEXT.JS</span>
+                    </div>
+                    <div class="skill-circle">
+                        <i data-lucide="zap" class="text-[var(--neon-cyan)] mb-1"></i>
+                        <span class="mono text-[10px]">VUE</span>
                     </div>
                 </div>
             </div>
@@ -264,8 +314,8 @@
         <!-- Backend Carousel -->
         <div class="mb-24">
             <h3 class="mono text-center text-sm mb-6 uppercase tracking-widest opacity-50 text-[var(--ronin-red)]">Backend & Logic</h3>
-            <div class="carousel-container relative">
-                <div class="carousel-track backend-track" style="animation-direction: reverse;">
+            <div class="carousel-container">
+                <div class="carousel-track backend-track">
                     <div class="skill-circle" style="border-color: var(--ronin-red);">
                         <i data-lucide="server" class="text-[var(--ronin-red)] mb-1"></i>
                         <span class="mono text-[10px]">NODEJS</span>
@@ -290,7 +340,15 @@
                         <i data-lucide="git-branch" class="text-[var(--ronin-red)] mb-1"></i>
                         <span class="mono text-[10px]">GIT</span>
                     </div>
-                    <!-- Clones -->
+                    <div class="skill-circle" style="border-color: var(--ronin-red);">
+                        <i data-lucide="box" class="text-[var(--ronin-red)] mb-1"></i>
+                        <span class="mono text-[10px]">DOCKER</span>
+                    </div>
+                    <div class="skill-circle" style="border-color: var(--ronin-red);">
+                        <i data-lucide="cloud" class="text-[var(--ronin-red)] mb-1"></i>
+                        <span class="mono text-[10px]">AWS</span>
+                    </div>
+                    <!-- Duplicate set for seamless loop -->
                     <div class="skill-circle" style="border-color: var(--ronin-red);">
                         <i data-lucide="server" class="text-[var(--ronin-red)] mb-1"></i>
                         <span class="mono text-[10px]">NODEJS</span>
@@ -314,6 +372,14 @@
                     <div class="skill-circle" style="border-color: var(--ronin-red);">
                         <i data-lucide="git-branch" class="text-[var(--ronin-red)] mb-1"></i>
                         <span class="mono text-[10px]">GIT</span>
+                    </div>
+                    <div class="skill-circle" style="border-color: var(--ronin-red);">
+                        <i data-lucide="box" class="text-[var(--ronin-red)] mb-1"></i>
+                        <span class="mono text-[10px]">DOCKER</span>
+                    </div>
+                    <div class="skill-circle" style="border-color: var(--ronin-red);">
+                        <i data-lucide="cloud" class="text-[var(--ronin-red)] mb-1"></i>
+                        <span class="mono text-[10px]">AWS</span>
                     </div>
                 </div>
             </div>
@@ -348,7 +414,7 @@
         </div>
     </section>
 
-    <!-- Team Section -->
+    <!-- Team Section with Game Card -->
     <section id="team" class="py-24 bg-[var(--void-black)] relative">
         <div class="max-w-6xl mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
@@ -362,6 +428,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Team Members (keep your existing 5 members) -->
                 <div class="glass-card p-6 rounded-none group hover:neon-border transition duration-500">
                     <div class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
                         <i data-lucide="user" class="text-[var(--neon-cyan)]"></i>
@@ -411,11 +478,28 @@
                     <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
                     <p class="text-xs text-[var(--mist)] uppercase tracking-wider">Status: CORE_ENGINEER</p>
                 </div>
+
+                <!-- Game Card -->
+                <div id="gameCard" class="game-card glass-card p-6 border-2 border-[var(--ronin-red)] hover:border-[var(--neon-cyan)] flex flex-col items-center justify-center text-center group cursor-pointer">
+                    <div class="w-20 h-20 bg-[var(--ronin-red)] group-hover:bg-[var(--neon-cyan)] transition-colors duration-300 flex items-center justify-center rounded-full mb-6">
+                        <i data-lucide="gamepad-2" class="w-10 h-10 text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mono text-white uppercase mb-3">RONIN DEFENDER</h3>
+                    <p class="text-[var(--mist)] text-sm mb-4">Choose your Ronin and defend against the bug hordes!</p>
+                    <div class="flex flex-wrap gap-2 justify-center mb-4">
+                        <span class="tag-pill" style="border-color: var(--ronin-red); color: var(--ronin-red); background: rgba(255,46,99,0.1)">HTML5</span>
+                        <span class="tag-pill" style="border-color: var(--ronin-red); color: var(--ronin-red); background: rgba(255,46,99,0.1)">Canvas</span>
+                        <span class="tag-pill" style="border-color: var(--ronin-red); color: var(--ronin-red); background: rgba(255,46,99,0.1)">JavaScript</span>
+                    </div>
+                    <div class="px-4 py-2 bg-[var(--ronin-red)] group-hover:bg-[var(--neon-cyan)] transition-colors text-white mono text-xs uppercase tracking-wider">
+                        CLICK TO PLAY
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Creations -->
+    <!-- Creations Section -->
     <section id="creations" class="py-24 px-6 relative bg-[var(--gunmetal)] bg-opacity-30">
         <div class="max-w-6xl mx-auto">
             <h2 class="mono text-2xl text-[var(--neon-cyan)] mb-12 uppercase tracking-widest">04. Artifacts</h2>
@@ -424,7 +508,6 @@
                 <!-- CIVI-Connect Card -->
                 <div class="project-card glass-card p-6 border-t-2 border-[var(--neon-cyan)] flex flex-col h-full">
                     <div class="flex justify-between items-start mb-6">
-                        <!-- FIXED: Icon background colored, SVG white -->
                         <div class="w-14 h-14 bg-[var(--neon-cyan)] flex items-center justify-center rounded-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
                         </div>
@@ -445,7 +528,6 @@
                 <!-- PromptBud Card -->
                 <div class="project-card glass-card p-6 border-t-2 border-[var(--ronin-red)] flex flex-col h-full">
                     <div class="flex justify-between items-start mb-6">
-                        <!-- FIXED: Icon background colored, SVG white -->
                         <div class="w-14 h-14 bg-[var(--ronin-red)] flex items-center justify-center rounded-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                         </div>
@@ -473,7 +555,6 @@
             <p class="text-lg text-[var(--mist)] mb-10 leading-relaxed">
                 Ready to build something extraordinary together? We're always looking for new challenges and opportunities to create impactful solutions. Let's combine our skills and vision to build the future.
             </p>
-            <!-- FIXED: Action points to email -->
             <a href="mailto:coderonins@gmail.com" class="glitch-btn inline-block px-10 py-4 bg-[var(--neon-cyan)] text-black mono font-bold text-base rounded-sm hover:shadow-[0_0_30px_#66FCF1]">
                 START A PROJECT
             </a>
@@ -507,7 +588,7 @@
         // Initialize Lucide Icons
         lucide.createIcons();
 
-        // Reveal animations on scroll
+        // Smooth scroll reveal
         const observerOptions = { threshold: 0.1 };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -522,6 +603,11 @@
         document.querySelectorAll('section').forEach(section => {
             section.classList.add('transition', 'duration-1000', 'translate-y-10', 'opacity-0');
             observer.observe(section);
+        });
+
+        // Game Card Click Handler
+        document.getElementById('gameCard').addEventListener('click', function() {
+            window.open('/ronin-defender.html', '_blank');
         });
     </script>
 </body>
