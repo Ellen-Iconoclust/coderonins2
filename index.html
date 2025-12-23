@@ -3,808 +3,550 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Ronins - The Digital Samurai</title>
-    <!-- Load Tailwind CSS -->
+    <title>Code Ronins | Masterless Developers</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Inter Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <!-- Load Lucide Icons for social links -->
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Load Three.js library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
     <style>
-        /* Custom styles for the cyber-samurai theme */
         :root {
-            --color-dark: #0D0D0D;          /* Deep Charcoal Background */
-            --color-purple: #7C3AED;        /* Galactic Purple Accent */
-            --color-white-glow: #FFFFFF;    /* Glowing White Accent */
-            --color-text: #E5E7EB;          /* Light Gray Text */
-            --color-card: #262626;          /* Darker Card Background - now used for transparency */
+            --void-black: #0B0C10;
+            --gunmetal: #1F2833;
+            --neon-cyan: #66FCF1;
+            --ronin-red: #FF2E63;
+            --mist: #C5C6C7;
         }
 
         body {
+            background-color: var(--void-black);
+            color: var(--mist);
             font-family: 'Inter', sans-serif;
-            background-color: var(--color-dark);
-            color: var(--color-text);
-            min-height: 100vh;
-            /* CRITICAL: Enables smooth scrolling for general navigation and hash links */
+            overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
-        /* Full viewport canvas container for Three.js scene */
-        #three-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            z-index: 0; /* Behind all content */
+        h1, h2, h3, .mono {
+            font-family: 'Space Mono', monospace;
         }
-        
-        /* Container for the Hero content, overlaid on the canvas */
-        #hero-content {
-            position: relative;
-            z-index: 10;
-            min-height: 100vh;
+
+        .neon-text {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px rgba(102, 252, 241, 0.5);
+        }
+
+        .neon-border {
+            border: 1px solid var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(102, 252, 241, 0.2);
+        }
+
+        .ronin-gradient {
+            background: linear-gradient(135deg, var(--ronin-red) 0%, #b01e45 100%);
+        }
+
+        /* Continuous Carousel Logic */
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .carousel-track {
+            display: flex;
+            width: max-content;
+            animation: scroll 25s linear infinite;
+        }
+
+        .carousel-track:hover {
+            animation-play-state: paused;
+        }
+
+        .skill-circle {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 0 1rem;
-            /* Added transition for smoother parallax movement */
-            transition: opacity 0.5s ease-out, transform 0.1s linear; 
+            justify-content: center;
+            background: var(--gunmetal);
+            border: 2px solid var(--neon-cyan);
+            margin: 0 15px;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
         }
 
-        /* Glassmorphism style for cards (Enhanced Blur and Transparency) */
+        /* Frontend Hover */
+        .frontend-track .skill-circle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px var(--neon-cyan);
+            background: rgba(102, 252, 241, 0.1);
+        }
+
+        /* Backend Hover - FIXED TO RED */
+        .backend-track .skill-circle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px var(--ronin-red);
+            background: rgba(255, 46, 99, 0.1);
+        }
+
+        /* Glassmorphism */
         .glass-card {
-            background-color: rgba(38, 38, 38, 0.4); 
-            backdrop-filter: blur(15px); 
-            -webkit-backdrop-filter: blur(15px); 
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5); 
-            transition: all 0.3s ease-in-out;
+            background: rgba(31, 40, 51, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(197, 198, 199, 0.1);
         }
 
-        /* The Blade's Edge Glow Effect on Cards/Buttons */
-        .glow-effect {
-            transition: all 0.3s ease-in-out;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-        }
-        
-        .glow-effect:hover {
-            transform: translateY(-4px) scale(1.02);
-            /* Inner glow effect: Purple glow */
-            box-shadow: 0 0 15px var(--color-purple), 
-                        0 0 30px var(--color-purple), 
-                        0 8px 20px -5px rgba(0, 0, 0, 0.7);
-        }
-        
-        /* Specific hover border for glass cards */
-        .glass-card:hover {
-            border: 1px solid rgba(124, 58, 237, 0.4); /* Purple border on hover */
-        }
-
-        /* Specific hover style for the subtle About and Contact cards (No scale/glow) */
-        .glass-card.subtle-hover:hover {
-            transform: none; /* Prevent scaling */
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5); /* Keep standard shadow, remove glow */
-            border: 1px solid rgba(124, 58, 237, 0.4); /* Keep slight purple border */
-        }
-        
-        /* Specific White Glow for text/icons */
-        .text-white-glow {
-            color: var(--color-white-glow);
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-
-        /* Styling for the Navigation links */
-        .nav-link {
-            transition: color 0.2s, text-shadow 0.2s;
-            font-weight: 600;
-        }
-        .nav-link:hover {
-            color: var(--color-purple);
-            text-shadow: 0 0 8px rgba(124, 58, 237, 0.8);
-        }
-
-        /* Custom scrollbar for aesthetic */
+        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
-        ::-webkit-scrollbar-thumb {
-            background-color: var(--color-purple);
-            border-radius: 10px;
-        }
         ::-webkit-scrollbar-track {
-            background: var(--color-dark);
+            background: var(--void-black);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gunmetal);
+            border-radius: 10px;
+            border: 2px solid var(--neon-cyan);
         }
 
-        /* --- GLOWING UNDERLINE STYLE --- */
-        .glowing-underline {
+        .glitch-btn {
             position: relative;
-            display: inline-block; 
-            padding-bottom: 10px; 
+            overflow: hidden;
+            transition: 0.3s;
         }
-
-        .glowing-underline::after {
+        
+        .glitch-btn::after {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px; /* Shorter than the text */
-            height: 3px; /* Slightly thicker line */
-            background-color: var(--color-purple);
-            border-radius: 9999px; /* Pill shape */
-            /* Add the glow effect */
-            box-shadow: 0 0 5px var(--color-purple), 0 0 15px rgba(124, 58, 237, 0.5);
-        }
-        
-        /* --- AURORA BACKGROUND STYLES (Dimmer and Darker) --- */
-        .aurora-container {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            /* Dimmed colors to match the purple theme */
-            background: radial-gradient(
-                ellipse at 20% 30%,
-                rgba(124, 58, 237, 0.4) 0%, /* Theme Purple (Dimmed from 0.6) */
-                rgba(124, 58, 237, 0) 60%
-            ),
-            radial-gradient(
-                ellipse at 80% 50%,
-                rgba(255, 0, 191, 0.3) 0%, /* Cyber Magenta Accent (Dimmed from 0.5) */
-                rgba(255, 0, 191, 0) 70%
-            ),
-            radial-gradient(
-                ellipse at 50% 80%,
-                rgba(0, 255, 255, 0.2) 0%, /* Neon Cyan Accent (Dimmed from 0.4) */
-                rgba(0, 255, 255, 0) 65%
-            ),
-            linear-gradient(135deg, var(--color-dark) 0%, #080415 100%); /* Slightly deeper dark color */
-            
-            background-blend-mode: overlay, screen, hard-light;
-            overflow: hidden;
-            animation: aurora-drift 25s infinite alternate ease-in-out;
-            z-index: 1; /* Below content (z-index 10) */
-        }
-        
-        /* Fade effect for blending the top of the aurora section with the black hero background */
-        #fade-blend {
-            position: absolute;
             top: 0;
-            left: 0;
-            width: 100%;
-            height: 150px; 
-            background: linear-gradient(to bottom, var(--color-dark) 0%, transparent 100%);
-            z-index: 5; /* Above aurora (1), below main content (10) */
-            pointer-events: none;
-        }
-
-        .aurora-container::before {
-            content: "";
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            top: -50%;
-            left: -50%;
-            background: repeating-linear-gradient(
-                45deg,
-                rgba(255, 255, 255, 0.02) 0px,
-                rgba(255, 255, 255, 0.02) 1px,
-                transparent 1px,
-                transparent 40px
-            ),
-            repeating-linear-gradient(
-                -45deg,
-                rgba(255, 255, 255, 0.03) 0px,
-                rgba(255, 255, 255, 0.03) 1px,
-                transparent 1px,
-                transparent 60px
-            );
-            animation: grid-shift 20s linear infinite;
-        }
-
-        .aurora-container::after {
-            content: "";
-            position: absolute;
+            left: -100%;
             width: 100%;
             height: 100%;
-            background: radial-gradient(
-                circle at center,
-                transparent 70%,
-                rgba(10, 5, 32, 0.95) 100% /* Slightly darker fade to edges */
-            );
-            animation: aurora-pulse 8s infinite alternate;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
         }
 
-        @keyframes aurora-drift {
-            0% {
-                background-position: 0% 0%, 0% 0%, 0% 0%;
-                filter: hue-rotate(0deg) brightness(0.8); /* Dimmed brightness */
-            }
-            50% {
-                background-position: -10% -5%, 5% 10%, 0% 15%;
-                filter: hue-rotate(30deg) brightness(0.9); /* Dimmed brightness */
-            }
-            100% {
-                background-position: 5% 10%, -10% -5%, 15% 0%;
-                filter: hue-rotate(60deg) brightness(0.8);
-            }
+        .glitch-btn:hover::after {
+            left: 100%;
         }
 
-        @keyframes grid-shift {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-50%, -50%); }
+        .tag-pill {
+            background: rgba(102, 252, 241, 0.1);
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-family: 'Space Mono', monospace;
         }
 
-        @keyframes aurora-pulse {
-            0% { opacity: 0.8; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.05); }
-            100% { opacity: 0.8; transform: scale(1); }
+        /* Project Card Styling */
+        .project-card {
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-
-        /* --- SCROLL REVEAL STYLES --- */
-
-        /* 1. Title Reveal (Zoom Down Effect) */
-        .title-initial {
-            opacity: 0;
-            transform: translateY(-20px) scale(0.9); /* Start slightly up and zoomed out */
-            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                        transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .title-reveal {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        /* 2. Content Reveal (Scroll Up Effect) */
-        .content-initial {
-            opacity: 0;
-            transform: translateY(50px); /* Start below the final position */
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out; 
-        }
-
-        .content-initial:nth-child(2) { transition-delay: 0.1s; }
-        .content-initial:nth-child(3) { transition-delay: 0.2s; }
-
-        .content-reveal {
-            opacity: 1;
-            transform: translateY(0); /* Move to final position */
+        .project-card:hover {
+            transform: translateY(-10px);
         }
     </style>
 </head>
-
 <body class="antialiased">
 
-    <!-- Three.js Canvas Container -->
-    <div id="three-container"></div>
-    
-    <!-- Navbar (The Banner) -->
-    <header class="sticky top-0 z-50 bg-[var(--color-dark)] bg-opacity-95 shadow-lg backdrop-blur-sm">
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <a href="#home" class="text-2xl font-extrabold text-white-glow hover:text-white transition duration-300 nav-anchor">
-                Code Ronins
-            </a>
-            <div class="space-x-8 hidden md:flex">
-                <a href="#about" class="nav-link text-white nav-anchor">About</a>
-                <a href="#skills" class="nav-link text-white nav-anchor">Skills</a>
-                <a href="#contact" class="nav-link text-white nav-anchor">Contact</a>
+    <!-- Header / Navbar -->
+    <nav class="fixed w-full z-50 px-6 py-4 flex justify-between items-center glass-card">
+        <div class="flex items-center space-x-2">
+            <div class="w-8 h-8 ronin-gradient rounded-sm transform rotate-45 flex items-center justify-center">
+                <i data-lucide="terminal" class="text-white transform -rotate-45 w-5 h-5"></i>
             </div>
-            <button id="menu-button" class="md:hidden text-white focus:outline-none">
-                <i data-lucide="menu" class="w-6 h-6"></i>
-            </button>
-        </nav>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4 space-y-2 bg-[var(--color-dark)]">
-            <a href="#about" class="nav-link block text-white p-2 rounded-lg hover:bg-gray-800 nav-anchor">About</a>
-            <a href="#skills" class="nav-link block text-white p-2 rounded-lg hover:bg-gray-800 nav-anchor">Skills</a>
-            <a href="#contact" class="nav-link block text-white p-2 rounded-lg hover:bg-gray-800 nav-anchor">Contact</a>
+            <span class="text-xl font-bold mono tracking-tighter neon-text uppercase">Code Ronins</span>
         </div>
-    </header>
+        <div class="hidden md:flex space-x-8 mono text-sm font-medium">
+            <a href="#philosophy" class="hover:text-[var(--neon-cyan)] transition">.philosophy()</a>
+            <a href="#skills" class="hover:text-[var(--neon-cyan)] transition">.skills()</a>
+            <a href="#team" class="hover:text-[var(--neon-cyan)] transition">.team()</a>
+            <a href="#creations" class="hover:text-[var(--neon-cyan)] transition">.creations()</a>
+        </div>
+        <button class="mono text-xs border border-[var(--ronin-red)] px-4 py-2 text-[var(--ronin-red)] hover:bg-[var(--ronin-red)] hover:text-white transition">CONNECT</button>
+    </nav>
 
-    <!-- Main Content for the Hero Section (Still necessary for z-index and centering hero content) -->
-    <main class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Home Section (The Ronin's Arrival) -->
-        <section id="home">
-            <div id="hero-content">
-                <h1 id="hero-title" class="text-5xl sm:text-7xl lg:text-8xl font-black mb-4 text-white-glow uppercase transition-opacity duration-300">
-                    CODE RONINS
-                </h1>
-                <p id="hero-subtitle" class="text-xl sm:text-3xl text-white font-light border-b-2 border-[var(--color-purple)] pb-2 mb-8 max-w-2xl transition-opacity duration-300">
-                    Masterless Developers Building the Future.
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 px-6 overflow-hidden">
+        <div class="absolute inset-0 opacity-10 pointer-events-none">
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-[var(--neon-cyan)] rounded-full filter blur-[100px]"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[var(--ronin-red)] rounded-full filter blur-[100px]"></div>
+        </div>
+
+        <div class="max-w-4xl text-center z-10">
+            <h2 class="mono text-[var(--neon-cyan)] mb-4 tracking-widest text-sm md:text-base animate-pulse">INITIATING PROTOCOL...</h2>
+            <h1 class="text-5xl md:text-8xl font-bold mb-6 mono uppercase tracking-tighter text-white">
+                CODE <span class="text-[var(--ronin-red)]">RONINS</span>
+            </h1>
+            <p class="text-xl md:text-2xl font-light mb-10 text-[var(--mist)] italic">
+                Masterless Developers Building The Future
+            </p>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+                <a href="#creations" class="glitch-btn px-8 py-4 ronin-gradient text-white mono font-bold rounded-sm w-full md:w-auto">VIEW ARTIFACTS</a>
+                <a href="#philosophy" class="px-8 py-4 border border-[var(--neon-cyan)] text-[var(--neon-cyan)] mono font-bold rounded-sm w-full md:w-auto hover:bg-[var(--neon-cyan)] hover:text-black transition">OUR CREED</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy -->
+    <section id="philosophy" class="py-24 px-6 bg-[var(--gunmetal)] relative">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center space-x-4 mb-8">
+                <div class="h-[1px] flex-grow bg-[var(--neon-cyan)] opacity-30"></div>
+                <h2 class="mono text-2xl text-[var(--neon-cyan)]">01. PHILOSOPHY</h2>
+                <div class="h-[1px] w-12 bg-[var(--neon-cyan)] opacity-30"></div>
+            </div>
+            <div class="glass-card p-8 md:p-12 border-l-4 border-[var(--ronin-red)]">
+                <p class="text-lg md:text-2xl leading-relaxed text-[var(--mist)]">
+                    We are a team of <span class="text-white font-semibold">masterless developers</span>, constantly building and evolving without masters — true to our Ronin name. Each of us brings unique skills and perspectives, united by our passion for creating innovative digital solutions.
                 </p>
-                <div id="hero-cta-container" class="transition-opacity duration-300">
-                    <!-- Updated CTA to use the smooth scroll handler -->
-                    <a href="#about" class="inline-block px-8 py-3 bg-[var(--color-purple)] text-white font-bold rounded-lg shadow-xl hover:bg-violet-800 transition duration-300 glow-effect text-lg nav-anchor">
-                        Discover the Philosophy <i data-lucide="arrow-right" class="w-5 h-5 inline ml-2"></i>
-                    </a>
+                <p class="text-lg md:text-2xl mt-6 leading-relaxed text-[var(--mist)]">
+                    We build not for glory, but for <span class="text-[var(--neon-cyan)]">impact</span> — crafting code that solves real problems and creates meaningful experiences.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-24 overflow-hidden">
+        <div class="max-w-6xl mx-auto px-6 mb-16">
+            <h2 class="mono text-2xl text-[var(--neon-cyan)] mb-2">02. ARSENAL</h2>
+            <p class="text-[var(--mist)]">Our technological specializations across the stack.</p>
+        </div>
+
+        <!-- Frontend Carousel -->
+        <div class="mb-12">
+            <h3 class="mono text-center text-sm mb-6 uppercase tracking-widest opacity-50 text-[var(--neon-cyan)]">Frontend & Mobile</h3>
+            <div class="carousel-container relative">
+                <div class="carousel-track frontend-track">
+                    <!-- Duplicate items for infinite loop -->
+                    <div class="skill-circle">
+                        <i data-lucide="layout" class="text-[var(--neon-cyan)] mb-1"></i>
+                        <span class="mono text-[10px]">HTML5</span>
+                    </div>
+                    <div class="skill-circle">
+                        <i data-lucide="palette" class="text-[var(--neon-cyan)] mb-1"></i>
+                        <span class="mono text-[10px]">CSS3</span>
+                    </div>
+                    <div class="skill-circle">
+                        <i data-lucide="code-2" class="text-[var(--neon-cyan)] mb-1"></i>
+                        <span class="mono text-[10px]">JS</span>
+                    </div>
+                    <div class="skill-circle">
+                        <i data-lucide="smartphone" class="text-[var(--neon-cyan)] mb-1"></i>
+                        <span class="mono text-[10px]">R-NATIVE</span>
+                    </div>
+                    <div class="skill-circle">
+                        <i data-lucide="file-json" class="text-[var(--neon-cyan)] mb-1"></i>
+                        <span class="mono text-[10px]">TS</span>
+                    </div>
+                    <div class="skill-circle">
+                        <i data-lucide="cpu" class="text-[var(--neon-cyan)] mb-1"></i>
+                        <span class="mono text-[10px]">REACT</span>
+                    </div>
+                    <!-- Clones -->
+                    <div class="skill-circle">
+                        <i data-lucide="layout" class="text-[var(--neon-cyan)] mb-1"></i>
+                        <span class="mono text-[10px]">HTML5</span>
+                    </div>
+                    <div class="skill-circle">
+                        <i data-lucide="palette" class="text-[var(--neon-cyan)] mb-1"></i>
+                        <span class="mono text-[10px]">CSS3</span>
+                    </div>
+                    <div class="skill-circle">
+                        <i data-lucide="code-2" class="text-[var(--neon-cyan)] mb-1"></i>
+                        <span class="mono text-[10px]">JS</span>
+                    </div>
+                    <div class="skill-circle">
+                        <i data-lucide="smartphone" class="text-[var(--neon-cyan)] mb-1"></i>
+                        <span class="mono text-[10px]">R-NATIVE</span>
+                    </div>
+                    <div class="skill-circle">
+                        <i data-lucide="file-json" class="text-[var(--neon-cyan)] mb-1"></i>
+                        <span class="mono text-[10px]">TS</span>
+                    </div>
+                    <div class="skill-circle">
+                        <i data-lucide="cpu" class="text-[var(--neon-cyan)] mb-1"></i>
+                        <span class="mono text-[10px]">REACT</span>
+                    </div>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <!-- Wrapper for About, Skills, and Contact (FULL WIDTH BACKGROUND) -->
-    <div id="content-sections-wrapper" class="relative">
-        <!-- The Aurora Background Element - Absolute position fills this wrapper -->
-        <div id="aurora-bg" class="aurora-container"></div>
-
-        <!-- Fade Blend Element: For smooth transition from the black hero background -->
-        <div id="fade-blend"></div>
-        
-        <!-- Inner wrapper to re-apply max-width and centering to the CONTENT -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-            <!-- About Section (The Philosophy) -->
-            <section id="about" class="pt-20 pb-16">
-                <!-- Title with Reveal Class -->
-                <h2 class="text-4xl sm:text-5xl font-extrabold text-center mb-12 text-white-glow tracking-wider title-initial">
-                    <span class="glowing-underline">The Philosophy</span>
-                </h2>
-                <!-- Content with Reveal Class -->
-                <div class="glass-card subtle-hover rounded-xl p-8 lg:p-12 max-w-4xl mx-auto content-initial">
-                    <p class="text-lg leading-relaxed">
-                        We are a team of masterless developers, constantly building and evolving without masters - true to our Ronin name. Each of us brings unique skills and perspectives, united by our passion for creating innovative digital solutions. We build not for glory, but for impact - crafting code that solves real problems and creates meaningful experiences.
-                    </p>
-                </div>
-            </section>
-
-            <!-- Skills Section -->
-            <section id="skills" class="pt-16 pb-16">
-                <!-- Title with Reveal Class -->
-                <h2 class="text-4xl sm:text-5xl font-extrabold text-center mb-12 text-white-glow tracking-wider title-initial">
-                    <span class="glowing-underline">Skills</span>
-                </h2>
-                <!-- Content grid with Reveal Class -->
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    
-                    <!-- Technique Card 1: Front-End -->
-                    <div id="skill-card-1" class="glass-card rounded-xl p-6 shadow-xl glow-effect content-initial" data-delay="0">
-                        <div class="flex items-center mb-4">
-                            <i data-lucide="layout-grid" class="w-8 h-8 text-white-glow mr-3"></i>
-                            <h3 class="text-2xl font-semibold text-white">The Art of Form (Frontend)</h3>
-                        </div>
-                        <ul class="space-y-2 list-none text-gray-400">
-                            <li class="flex items-center"><i data-lucide="check" class="w-4 h-4 text-green-500 mr-2"></i> React & Vue Mastery</li>
-                            <li class="flex items-center"><i data-lucide="check" class="w-4 h-4 text-green-500 mr-2"></i> Tailwind & SCSS Styling</li>
-                            <li class="flex items-center"><i data-lucide="check" class="w-4 h-4 text-green-500 mr-2"></i> Fluid, Responsive Design (Mobile-First)</li>
-                        </ul>
-                    </div>
-
-                    <!-- Technique Card 2: Back-End -->
-                    <div id="skill-card-2" class="glass-card rounded-xl p-6 shadow-xl glow-effect content-initial" data-delay="100">
-                        <div class="flex items-center mb-4">
-                            <i data-lucide="sword" class="w-8 h-8 text-white-glow mr-3"></i>
-                            <h3 class="text-2xl font-semibold text-white">The Way of the Blade (Backend)</h3>
-                        </div>
-                        <ul class="space-y-2 list-none text-gray-400">
-                            <li class="flex items-center"><i data-lucide="check" class="w-4 h-4 text-green-500 mr-2"></i> Node.js & Express (The Foundation)</li>
-                            <li class="flex items-center"><i data-lucide="check" class="w-4 h-4 text-green-500 mr-2"></i> Python/Django (Robust Frameworks)</li>
-                            <li class="flex items-center"><i data-lucide="check" class="w-4 h-4 text-green-500 mr-2"></i> RESTful API Crafting</li>
-                        </ul>
-                    </div>
-
-                    <!-- Technique Card 3: Database & Cloud -->
-                    <div id="skill-card-3" class="glass-card rounded-xl p-6 shadow-xl glow-effect content-initial" data-delay="200">
-                        <div class="flex items-center mb-4">
-                            <i data-lucide="shield" class="w-8 h-8 text-white-glow mr-3"></i>
-                            <h3 class="text-2xl font-semibold text-white">The Fortress Walls (Infrastructure)</h3>
-                        </div>
-                        <ul class="space-y-2 list-none text-gray-400">
-                            <li class="flex items-center"><i data-lucide="check" class="w-4 h-4 text-green-500 mr-2"></i> Firestore / MongoDB (Flexible Scrolls)</li>
-                            <li class="flex items-center"><i data-lucide="check" class="w-4 h-4 text-green-500 mr-2"></i> AWS & Google Cloud (The High Ground)</li>
-                            <li class="flex items-center"><i data-lucide="check" class="w-4 h-4 text-green-500 mr-2"></i> Git (The History of Conflict)</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Contact Section -->
-            <section id="contact" class="pt-16 pb-20">
-                <!-- Title with Reveal Class -->
-                <h2 class="text-4xl sm:text-5xl font-extrabold text-center mb-12 text-white-glow tracking-wider title-initial">
-                    <span class="glowing-underline">Join our Journey</span>
-                </h2>
-                <!-- Content with Reveal Class -->
-                <div class="glass-card rounded-xl p-8 shadow-2xl subtle-hover max-w-2xl mx-auto text-center content-initial">
-                    <!-- New description -->
-                    <p class="text-lg mb-6 text-gray-300">
-                        Ready to build something extraordinary together? We're always looking for new challenges and opportunities to create impactful solutions. Let's combine our skills and vision to build the future.
-                    </p>
-                    
-                    <!-- Contact Button (Uses glow-effect) -->
-                    <a href="mailto:coderonin.dev@example.com" class="inline-block px-8 py-3 bg-[var(--color-purple)] text-white font-bold rounded-lg shadow-xl hover:bg-violet-800 transition duration-300 glow-effect text-lg">
-                        Send the Message Scroll
-                    </a>
-
-                    <!-- Social Icons -->
-                    <div class="mt-8 pt-6 border-t border-gray-700 flex justify-center space-x-6">
-                        <a href="https://github.com/coderonin" target="_blank" class="text-white hover:text-[var(--color-purple)] transition duration-300 p-3 rounded-full">
-                            <i data-lucide="github" class="w-7 h-7"></i>
-                        </a>
-                        <a href="https://linkedin.com/in/coderonin" target="_blank" class="text-white hover:text-[var(--color-purple)] transition duration-300 p-3 rounded-full">
-                            <i data-lucide="linkedin" class="w-7 h-7"></i>
-                        </a>
-                        <a href="https://twitter.com/coderonin" target="_blank" class="text-white hover:text-[var(--color-purple)] transition duration-300 p-3 rounded-full">
-                            <i data-lucide="twitter" class="w-7 h-7"></i>
-                        </a>
-                    </div>
-                </div>
-            </section>
         </div>
-    </div>
 
-    <!-- Footer: Uses a black background with slight transparency to blend into the dark aurora base -->
-    <footer class="bg-[var(--color-dark)] bg-opacity-95 py-6 relative z-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-500">
-            &copy; 2025 Code Ronins. Forged in Discipline.
+        <!-- Backend Carousel -->
+        <div class="mb-24">
+            <h3 class="mono text-center text-sm mb-6 uppercase tracking-widest opacity-50 text-[var(--ronin-red)]">Backend & Logic</h3>
+            <div class="carousel-container relative">
+                <div class="carousel-track backend-track" style="animation-direction: reverse;">
+                    <div class="skill-circle" style="border-color: var(--ronin-red);">
+                        <i data-lucide="server" class="text-[var(--ronin-red)] mb-1"></i>
+                        <span class="mono text-[10px]">NODEJS</span>
+                    </div>
+                    <div class="skill-circle" style="border-color: var(--ronin-red);">
+                        <i data-lucide="container" class="text-[var(--ronin-red)] mb-1"></i>
+                        <span class="mono text-[10px]">FLASK</span>
+                    </div>
+                    <div class="skill-circle" style="border-color: var(--ronin-red);">
+                        <i data-lucide="database" class="text-[var(--ronin-red)] mb-1"></i>
+                        <span class="mono text-[10px]">POSTGRES</span>
+                    </div>
+                    <div class="skill-circle" style="border-color: var(--ronin-red);">
+                        <i data-lucide="flame" class="text-[var(--ronin-red)] mb-1"></i>
+                        <span class="mono text-[10px]">FIREBASE</span>
+                    </div>
+                    <div class="skill-circle" style="border-color: var(--ronin-red);">
+                        <i data-lucide="webhook" class="text-[var(--ronin-red)] mb-1"></i>
+                        <span class="mono text-[10px]">REST API</span>
+                    </div>
+                    <div class="skill-circle" style="border-color: var(--ronin-red);">
+                        <i data-lucide="git-branch" class="text-[var(--ronin-red)] mb-1"></i>
+                        <span class="mono text-[10px]">GIT</span>
+                    </div>
+                    <!-- Clones -->
+                    <div class="skill-circle" style="border-color: var(--ronin-red);">
+                        <i data-lucide="server" class="text-[var(--ronin-red)] mb-1"></i>
+                        <span class="mono text-[10px]">NODEJS</span>
+                    </div>
+                    <div class="skill-circle" style="border-color: var(--ronin-red);">
+                        <i data-lucide="container" class="text-[var(--ronin-red)] mb-1"></i>
+                        <span class="mono text-[10px]">FLASK</span>
+                    </div>
+                    <div class="skill-circle" style="border-color: var(--ronin-red);">
+                        <i data-lucide="database" class="text-[var(--ronin-red)] mb-1"></i>
+                        <span class="mono text-[10px]">POSTGRES</span>
+                    </div>
+                    <div class="skill-circle" style="border-color: var(--ronin-red);">
+                        <i data-lucide="flame" class="text-[var(--ronin-red)] mb-1"></i>
+                        <span class="mono text-[10px]">FIREBASE</span>
+                    </div>
+                    <div class="skill-circle" style="border-color: var(--ronin-red);">
+                        <i data-lucide="webhook" class="text-[var(--ronin-red)] mb-1"></i>
+                        <span class="mono text-[10px]">REST API</span>
+                    </div>
+                    <div class="skill-circle" style="border-color: var(--ronin-red);">
+                        <i data-lucide="git-branch" class="text-[var(--ronin-red)] mb-1"></i>
+                        <span class="mono text-[10px]">GIT</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Common Skills -->
+        <div class="max-w-4xl mx-auto px-6 grid grid-cols-2 md:grid-cols-3 gap-6">
+            <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+                <i data-lucide="search" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
+                <span class="mono text-sm">Research</span>
+            </div>
+            <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+                <i data-lucide="languages" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
+                <span class="mono text-sm">Multilanguage</span>
+            </div>
+            <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+                <i data-lucide="presentation" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
+                <span class="mono text-sm">Presentation</span>
+            </div>
+            <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+                <i data-lucide="users" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
+                <span class="mono text-sm">Leadership</span>
+            </div>
+            <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+                <i data-lucide="share-2" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
+                <span class="mono text-sm">Collaboration</span>
+            </div>
+            <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+                <i data-lucide="brain-circuit" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
+                <span class="mono text-sm">Problem Solving</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="py-24 bg-[var(--void-black)] relative">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+                <div>
+                    <h2 class="mono text-2xl text-[var(--neon-cyan)]">03. THE RONINS</h2>
+                    <p class="text-[var(--mist)] mt-2">A collective of unique talents, unbound by convention.</p>
+                </div>
+                <div class="text-[var(--ronin-red)] mono text-xs uppercase tracking-widest bg-[var(--ronin-red)] bg-opacity-10 px-3 py-1 border border-[var(--ronin-red)]">
+                    Current Squad Count: 05
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Ellen -->
+                <div class="glass-card p-6 rounded-none group hover:neon-border transition duration-500">
+                    <div class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
+                        <i data-lucide="user" class="text-[var(--neon-cyan)]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mono text-white uppercase">Ellen</h3>
+                    <p class="text-[var(--neon-cyan)] text-sm mono mb-4">Team Leader & Lead Developer</p>
+                    <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
+                    <p class="text-xs text-[var(--mist)] uppercase tracking-wider">Status: ACTIVE_COMMANDER</p>
+                </div>
+
+                <!-- Karmughilan -->
+                <div class="glass-card p-6 rounded-none group hover:neon-border transition duration-500">
+                    <div class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
+                        <i data-lucide="microscope" class="text-[var(--neon-cyan)]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mono text-white uppercase">Karmughilan</h3>
+                    <p class="text-[var(--neon-cyan)] text-sm mono mb-4">Researcher & Project Manager</p>
+                    <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
+                    <p class="text-xs text-[var(--mist)] uppercase tracking-wider">Status: INTEL_SPECIALIST</p>
+                </div>
+
+                <!-- Shahana -->
+                <div class="glass-card p-6 rounded-none group hover:neon-border transition duration-500">
+                    <div class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
+                        <i data-lucide="monitor" class="text-[var(--neon-cyan)]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mono text-white uppercase">Shahana</h3>
+                    <p class="text-[var(--neon-cyan)] text-sm mono mb-4">Project Presenter & Frontend Developer</p>
+                    <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
+                    <p class="text-xs text-[var(--mist)] uppercase tracking-wider">Status: UI_ARCHITECT</p>
+                </div>
+
+                <!-- Nishanth -->
+                <div class="glass-card p-6 rounded-none group hover:neon-border transition duration-500">
+                    <div class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
+                        <i data-lucide="layers" class="text-[var(--neon-cyan)]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mono text-white uppercase">Nishanth</h3>
+                    <p class="text-[var(--neon-cyan)] text-sm mono mb-4">Full Stack Developer</p>
+                    <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
+                    <p class="text-xs text-[var(--mist)] uppercase tracking-wider">Status: OMNI_DEVELOPER</p>
+                </div>
+
+                <!-- Soundarya -->
+                <div class="glass-card p-6 rounded-none group hover:neon-border transition duration-500">
+                    <div class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
+                        <i data-lucide="database" class="text-[var(--neon-cyan)]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mono text-white uppercase">Soundarya</h3>
+                    <p class="text-[var(--neon-cyan)] text-sm mono mb-4">Backend Developer</p>
+                    <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
+                    <p class="text-xs text-[var(--mist)] uppercase tracking-wider">Status: CORE_ENGINEER</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Creations -->
+    <section id="creations" class="py-24 px-6 relative bg-[var(--gunmetal)] bg-opacity-30">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="mono text-2xl text-[var(--neon-cyan)] mb-12 uppercase tracking-widest">04. Artifacts</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- CIVI-Connect Card -->
+                <div class="project-card glass-card p-6 border-t-2 border-[var(--neon-cyan)] flex flex-col h-full">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-14 h-14 bg-[var(--neon-cyan)] bg-opacity-20 flex items-center justify-center rounded-sm border border-[var(--neon-cyan)] border-opacity-30">
+                            <!-- Inlined SVG for absolute visibility -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--neon-cyan)]"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                        </div>
+                        <i data-lucide="external-link" class="w-5 h-5 text-[var(--mist)] cursor-pointer hover:text-white transition"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mono text-white mb-3 uppercase tracking-tight">CIVI-Connect</h3>
+                    <p class="text-sm text-[var(--mist)] mb-6 flex-grow leading-relaxed">
+                        A revolutionary mobile application that bridges the gap between citizens and local government services. Enabling efficient communication and real-time updates for community development.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span class="tag-pill">React Native</span>
+                        <span class="tag-pill">Flask</span>
+                        <span class="tag-pill">PostgreSQL</span>
+                        <span class="tag-pill">Firebase</span>
+                    </div>
+                </div>
+
+                <!-- PromptBud Card -->
+                <div class="project-card glass-card p-6 border-t-2 border-[var(--ronin-red)] flex flex-col h-full">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-14 h-14 bg-[var(--ronin-red)] bg-opacity-20 flex items-center justify-center rounded-sm border border-[var(--ronin-red)] border-opacity-30">
+                            <!-- Inlined SVG for absolute visibility -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--ronin-red)]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        </div>
+                        <i data-lucide="external-link" class="w-5 h-5 text-[var(--mist)] cursor-pointer hover:text-white transition"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mono text-white mb-3 uppercase tracking-tight">PromptBud</h3>
+                    <p class="text-sm text-[var(--mist)] mb-6 flex-grow leading-relaxed">
+                        A revolutionary platform designed for AI enthusiasts, prompt engineers, and creative minds to discover, share, and collaborate on the most effective AI prompts.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span class="tag-pill" style="border-color: var(--ronin-red); color: var(--ronin-red); background: rgba(255,46,99,0.1)">AI/LLM</span>
+                        <span class="tag-pill" style="border-color: var(--ronin-red); color: var(--ronin-red); background: rgba(255,46,99,0.1)">Collaborative</span>
+                        <span class="tag-pill" style="border-color: var(--ronin-red); color: var(--ronin-red); background: rgba(255,46,99,0.1)">Next.js</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join Our Journey -->
+    <section class="py-24 bg-[var(--void-black)] relative overflow-hidden">
+        <div class="absolute inset-0 ronin-gradient opacity-5"></div>
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold mb-8 mono uppercase tracking-tighter text-white">Join Our Journey</h2>
+            <p class="text-lg text-[var(--mist)] mb-10 leading-relaxed">
+                Ready to build something extraordinary together? We're always looking for new challenges and opportunities to create impactful solutions. Let's combine our skills and vision to build the future.
+            </p>
+            <button class="glitch-btn px-10 py-4 bg-[var(--neon-cyan)] text-black mono font-bold text-base rounded-sm hover:shadow-[0_0_30px_#66FCF1]">
+                START A PROJECT
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white border-opacity-5 px-6">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex items-center space-x-2">
+                <div class="w-6 h-6 ronin-gradient rounded-sm transform rotate-45 flex items-center justify-center">
+                    <i data-lucide="terminal" class="text-white transform -rotate-45 w-4 h-4"></i>
+                </div>
+                <span class="mono text-sm tracking-tighter neon-text uppercase font-bold">Code Ronins</span>
+            </div>
+            
+            <div class="flex space-x-6">
+                <a href="#" class="text-[var(--mist)] hover:text-[var(--neon-cyan)] transition"><i data-lucide="github" class="w-5 h-5"></i></a>
+                <a href="#" class="text-[var(--mist)] hover:text-[var(--neon-cyan)] transition"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                <a href="#" class="text-[var(--mist)] hover:text-[var(--neon-cyan)] transition"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                <a href="#" class="text-[var(--mist)] hover:text-[var(--neon-cyan)] transition"><i data-lucide="mail" class="w-5 h-5"></i></a>
+            </div>
+
+            <p class="mono text-[10px] uppercase tracking-widest text-[var(--mist)] opacity-40">
+                &copy; 2024 CODE_RONINS // NO MASTERS // ONLY CODE
+            </p>
         </div>
     </footer>
 
     <script>
-        // Initialize Lucide icons
+        // Initialize Lucide Icons
         lucide.createIcons();
 
-        // --- GLOBAL DOM REFERENCES & THREE.JS VARIABLES ---
+        // Reveal animations on scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
 
-        let scene, camera, renderer, particles, pointLight, scrollGlow, vibranceDot, glowDotMesh, curlyLine, scrollY = 0, targetZ = 0; 
-        
-        // DOM elements for fading and parallax
-        const heroContent = document.getElementById('hero-content');
-        let heroTitle;
-        let heroSubtitle;
-        let heroCtaContainer;
-
-        const PURPLE_COLOR = 0x7C3AED;
-        const WHITE_COLOR = 0xFFFFFF;
-        const PARTICLE_COUNT = 1000;
-        const TRANSITION_HEIGHT = window.innerHeight * 0.7; // Start hero fade transition when scrolled 70% of viewport height
-        
-        // Define the range for the curly line animation
-        const LINE_TRANSITION_START = window.innerHeight * 0.5; // Start effect halfway through hero
-        const LINE_TRANSITION_END = window.innerHeight * 2.5; // End effect well into the About section
-
-        
-        function customTween(obj, prop, endVal, durationMs, onComplete) {
-            const startVal = obj[prop];
-            const startTime = performance.now();
-            
-            function step() {
-                const elapsed = performance.now() - startTime;
-                const progress = Math.min(1, elapsed / durationMs);
-                
-                obj[prop] = startVal + (endVal - startVal) * progress;
-                
-                if (progress < 1) {
-                    requestAnimationFrame(step);
-                } else if (onComplete) {
-                    onComplete();
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100');
+                    entry.target.classList.remove('translate-y-10');
+                    entry.target.classList.remove('opacity-0');
                 }
-            }
-            requestAnimationFrame(step);
-        }
-
-        function initThreeJS() {
-            // Setup Scene, Camera, Renderer
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            document.getElementById('three-container').appendChild(renderer.domElement);
-
-            camera.position.z = 50;
-
-            // 1. Floating Particles System (Hero Background)
-            const floatingGeometry = new THREE.BufferGeometry();
-            const floatingPositions = [];
-            
-            for (let i = 0; i < PARTICLE_COUNT; i++) {
-                const x = (Math.random() - 0.5) * 400;
-                const y = (Math.random() - 0.5) * 400;
-                const z = (Math.random() - 0.5) * 400;
-                floatingPositions.push(x, y, z);
-            }
-
-            floatingGeometry.setAttribute('position', new THREE.Float32BufferAttribute(floatingPositions, 3));
-            const floatingMaterial = new THREE.PointsMaterial({
-                color: WHITE_COLOR,
-                size: 0.5,
-                blending: THREE.AdditiveBlending,
-                transparent: true,
-                opacity: 0.7
             });
-            particles = new THREE.Points(floatingGeometry, floatingMaterial);
-            scene.add(particles);
+        }, observerOptions);
 
-            // 2. Purple Flash Light (Subtle flicker for particles)
-            pointLight = new THREE.PointLight(PURPLE_COLOR, 0, 100); 
-            pointLight.position.set(-100, 100, 0); 
-            scene.add(pointLight);
-            
-            // 3. Vibrance Dot LIGHT: High-intensity PointLight for localized illumination
-            vibranceDot = new THREE.PointLight(PURPLE_COLOR, 0, 100); // Start off
-            vibranceDot.position.set(-10, 10, -5); // Position top-left
-            scene.add(vibranceDot);
-
-            // 3b. VISIBLE GLOW DOT SPRITE
-            const glowDotMaterial = new THREE.SpriteMaterial({
-                color: PURPLE_COLOR,
-                transparent: true,
-                opacity: 0, 
-                blending: THREE.AdditiveBlending,
-                depthTest: false, 
-                depthWrite: false, 
-            });
-            
-            glowDotMesh = new THREE.Sprite(glowDotMaterial);
-            glowDotMesh.scale.set(5, 5, 1); 
-            glowDotMesh.position.copy(vibranceDot.position); 
-            scene.add(glowDotMesh);
-
-
-            // 4. Spot Light (General scene lighting)
-            scrollGlow = new THREE.SpotLight(PURPLE_COLOR, 0, 0, Math.PI / 4, 0.5, 0.5);
-            scrollGlow.position.set(0, 50, 0); 
-            scrollGlow.target.position.set(0, 0, 0); 
-            scrollGlow.distance = 200; 
-            scrollGlow.angle = Math.PI / 3; 
-            scrollGlow.penumbra = 0.5; 
-            scene.add(scrollGlow);
-            scene.add(scrollGlow.target);
-
-            // 5. Curly Scrolling Line (Reverted to THREE.Line for stability)
-            const curvePoints = 200; // Increased points for smoothness
-            const lineGeometry = new THREE.BufferGeometry();
-            // We use 3 * curvePoints because we're defining points in 3D space
-            const linePositions = new Float32Array(curvePoints * 3); 
-            lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3).setUsage(THREE.DynamicDrawUsage));
-
-            // Using LineBasicMaterial, but forcing it to be highly emissive for visibility
-            const lineMaterial = new THREE.LineBasicMaterial({
-                color: PURPLE_COLOR,
-                transparent: true,
-                opacity: 0,
-                blending: THREE.AdditiveBlending,
-                linewidth: 5 // NOTE: This value is often ignored by WebGLRenderer, we compensate with scaling in onScroll
-            });
-            curlyLine = new THREE.Line(lineGeometry, lineMaterial);
-            curlyLine.frustumCulled = false; // Important: ensure line is always rendered even if not fully visible
-            scene.add(curlyLine);
-
-
-            // Initial flash animation 
-            customTween(pointLight, 'intensity', 1.5, 1500, () => {
-                customTween(pointLight, 'intensity', 0.5, 5000); 
-            });
-
-
-            window.addEventListener('resize', onWindowResize, false);
-            window.addEventListener('scroll', onScroll, false);
-            animate();
-            
-            // Mobile Menu Toggle Fix
-            const menuButton = document.getElementById('menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-
-            menuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-        }
-
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        function onScroll() {
-            scrollY = window.scrollY;
-            
-            // 1. Calculate scroll factor (0 to 1) for Hero Fade
-            const scrollFactor = Math.min(1, scrollY / TRANSITION_HEIGHT);
-
-            // Fade Hero Text (Adjusted factor from 1.5 to 1.2 to allow the parallax effect to be more noticeable)
-            heroContent.style.opacity = Math.max(0, 1 - scrollFactor * 1.2); 
-
-            // Adjust Floating Particles visibility and Camera position
-            particles.material.opacity = Math.max(0, 0.7 - scrollFactor * 2);
-            targetZ = -scrollFactor * 50;
-            
-            // --- Parallax Depth Effect on Hero Content ---
-            if (heroTitle && heroSubtitle && heroCtaContainer) {
-                const parallaxSpeedBase = 0.3; // Base speed for parallax
-                
-                // Furthest back (moves slowest)
-                const pFactorTitle = scrollY * parallaxSpeedBase * 2.0; 
-                // Mid distance
-                const pFactorSubtitle = scrollY * parallaxSpeedBase * 3.0; 
-                // Closest to viewer (moves fastest)
-                const pFactorCta = scrollY * parallaxSpeedBase * 4.0;    
-
-                // Apply positive Y translation to make them move down as the user scrolls down
-                heroTitle.style.transform = `translateY(${pFactorTitle}px)`;
-                heroSubtitle.style.transform = `translateY(${pFactorSubtitle}px)`;
-                heroCtaContainer.style.transform = `translateY(${pFactorCta}px)`;
-            }
-
-
-            // 2. Control Scroll Glow Intensity and Vibrance Dot Intensity
-            const glowStartFactor = 0.4;
-            let glowValue = 0; // Value from 0 to 1 for smooth transition
-
-            if (scrollFactor > glowStartFactor) {
-                const glowTransition = (scrollFactor - glowStartFactor) / (1 - glowStartFactor);
-                glowValue = Math.min(1.0, glowTransition); 
-            }
-            
-            scrollGlow.intensity = glowValue * 2.0; 
-            vibranceDot.intensity = glowValue * 10.0; 
-            
-            if (glowDotMesh) {
-                glowDotMesh.material.opacity = glowValue * 1.0; 
-                glowDotMesh.scale.setScalar(5 + glowValue * 5); 
-            }
-            
-            // 3. Curly Line Animation Logic
-            if (curlyLine) {
-                const lineScrollRange = LINE_TRANSITION_END - LINE_TRANSITION_START;
-                // lineScrollProgress goes from 0 (start of effect) to 1 (end of effect)
-                const lineScrollProgress = Math.min(1, Math.max(0, (scrollY - LINE_TRANSITION_START) / lineScrollRange));
-
-                const linePositionsAttribute = curlyLine.geometry.attributes.position;
-                const points = linePositionsAttribute.array;
-                const curvePoints = linePositionsAttribute.count / 3;
-
-                const maxHeight = 120; // Increased height for more dramatic effect
-                const maxCurl = 40;    // Increased curl amplitude for more noticeable wave
-                const zDepth = -15;    // Closer to camera
-
-                for (let i = 0; i < curvePoints; i++) {
-                    const t = i / (curvePoints - 1); // Normalized position along the line (0 to 1)
-                    
-                    if (t > lineScrollProgress) {
-                        // Collapse segments that haven't been 'unfurled' yet
-                        points[i * 3 + 0] = 0;
-                        points[i * 3 + 1] = 0;
-                        points[i * 3 + 2] = zDepth;
-                        continue;
-                    }
-                    
-                    // Y Position: Line starts at top (0) and extends down 
-                    const yPos = maxHeight * t; 
-
-                    // X Position (The Curl): Curl reaches max amplitude at 50% scroll.
-                    const curlAmplitude = maxCurl * Math.sin(lineScrollProgress * Math.PI); 
-                    // 3 full waves along the line length (t * 3 * PI)
-                    const xOffset = curlAmplitude * Math.sin(t * Math.PI * 3); 
-
-                    points[i * 3 + 0] = xOffset;
-                    points[i * 3 + 1] = -yPos - 5; // Y is negative to move downwards + slight offset
-                    points[i * 3 + 2] = zDepth;
-                }
-
-                linePositionsAttribute.needsUpdate = true;
-                curlyLine.geometry.setDrawRange(0, curvePoints * 3); // Ensure all points are included in draw range
-
-                // Line Opacity and Scale: Fade in and out with the scroll progress
-                curlyLine.material.opacity = Math.min(1.0, lineScrollProgress * 10); 
-                curlyLine.scale.setScalar(1 + lineScrollProgress * 3.0); 
-            }
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-
-            // Smoothly move the camera based on scroll
-            camera.position.z += (targetZ - camera.position.z) * 0.05;
-
-            // Update Floating Particles: subtle rotation
-            particles.rotation.y += 0.0005;
-            particles.rotation.x += 0.0003;
-            
-            // Subtle rotation on the line for added dynamism
-            if (curlyLine) {
-                 curlyLine.rotation.y += 0.001; 
-            }
-
-            // Light update (subtle flicker)
-            pointLight.intensity = Math.max(0.0, pointLight.intensity + (Math.random() - 0.5) * 0.01);
-            
-            renderer.render(scene, camera);
-        }
-        
-        // --- SMOOTH SCROLL AND INTERSECTION OBSERVER LOGIC ---
-
-        function setupSmoothScroll() {
-            // Select all elements that act as internal links
-            const anchorLinks = document.querySelectorAll('.nav-anchor');
-            
-            anchorLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    // Prevent default hash jump
-                    e.preventDefault(); 
-                    
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    
-                    if (targetElement) {
-                        // Use scrollIntoView with smooth behavior
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start' // Align the top of the element to the top of the viewport
-                        });
-                        
-                        // Close mobile menu if open
-                        const mobileMenu = document.getElementById('mobile-menu');
-                        if (!mobileMenu.classList.contains('hidden')) {
-                            mobileMenu.classList.add('hidden');
-                        }
-                    }
-                });
-            });
-        }
-        
-        function setupScrollReveal() {
-            // Select all titles and content that need to be revealed
-            const elementsToObserve = [
-                ...document.querySelectorAll('.title-initial'),
-                ...document.querySelectorAll('.content-initial')
-            ];
-            
-            const observerOptions = {
-                root: null, // relative to the viewport
-                rootMargin: '0px',
-                threshold: 0.1 // Trigger when 10% of the element is visible
-            };
-
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const target = entry.target;
-                        
-                        // Determine the reveal class based on the initial class
-                        const revealClass = target.classList.contains('title-initial') ? 'title-reveal' : 'content-reveal';
-                        
-                        // Handle staggered delay for content cards
-                        const delay = parseInt(target.getAttribute('data-delay') || '0', 10);
-
-                        setTimeout(() => {
-                            target.classList.remove(target.classList.contains('title-initial') ? 'title-initial' : 'content-initial');
-                            target.classList.add(revealClass);
-                            observer.unobserve(target);
-                        }, delay);
-                    }
-                });
-            }, observerOptions);
-
-            elementsToObserve.forEach(el => {
-                observer.observe(el);
-            });
-        }
-
-        window.addEventListener('load', function() {
-            // Get DOM elements for parallax
-            heroTitle = document.getElementById('hero-title');
-            heroSubtitle = document.getElementById('hero-subtitle');
-            heroCtaContainer = document.getElementById('hero-cta-container');
-
-            lucide.createIcons();
-            if (typeof THREE !== 'undefined') {
-                initThreeJS();
-            } else {
-                console.error("Three.js failed to load.");
-            }
-            
-            setupSmoothScroll();
-            setupScrollReveal(); 
+        // Apply reveal effect to sections
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('transition', 'duration-1000', 'translate-y-10', 'opacity-0');
+            observer.observe(section);
         });
     </script>
 </body>
