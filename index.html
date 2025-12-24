@@ -1,681 +1,739 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Ronins | Masterless Developers</title>
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        :root {
-            --void-black: #0B0C10;
-            --gunmetal: #1F2833;
-            --neon-cyan: #66FCF1;
-            --ronin-red: #FF2E63;
-            --mist: #C5C6C7;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Ronins | Masterless Developers</title>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --void-black: #0B0C10;
+      --gunmetal: #1F2833;
+      --neon-cyan: #66FCF1;
+      --ronin-red: #FF2E63;
+      --mist: #C5C6C7;
+    }
 
-        body {
-            background-color: var(--void-black);
-            color: var(--mist);
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
+    body {
+      background-color: var(--void-black);
+      color: var(--mist);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
 
-        h1, h2, h3, .mono {
-            font-family: 'Space Mono', monospace;
-        }
+    h1,
+    h2,
+    h3,
+    .mono {
+      font-family: 'Space Mono', monospace;
+    }
 
-        .neon-text {
-            color: var(--neon-cyan);
-            text-shadow: 0 0 10px rgba(102, 252, 241, 0.5);
-        }
+    .neon-text {
+      color: var(--neon-cyan);
+      text-shadow: 0 0 10px rgba(102, 252, 241, 0.5);
+    }
 
-        .ronin-gradient {
-            background: linear-gradient(135deg, var(--ronin-red) 0%, #b01e45 100%);
-        }
+    .ronin-gradient {
+      background: linear-gradient(135deg, var(--ronin-red) 0%, #b01e45 100%);
+    }
 
-        /* Improved Continuous Carousel - Fixed Infinite Loop */
-        .carousel-container {
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            mask-image: linear-gradient(
-                to right,
-                transparent,
-                black 5%,
-                black 95%,
-                transparent
-            );
-            -webkit-mask-image: linear-gradient(
-                to right,
-                transparent,
-                black 5%,
-                black 95%,
-                transparent
-            );
-        }
+    /* Improved Continuous Carousel - Fixed Infinite Loop */
+    /* Improved Continuous Carousel - Fixed Infinite Loop */
+    .carousel-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 5%,
+    black 95%,
+    transparent
+    );
+    -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 5%,
+    black 95%,
+    transparent
+    );
+    background: rgba(31, 40, 51, 0.6); /* Added this line */
+    border-radius: 12px; /* Added this line */
+    padding: 20px 0; /* Added this line */
+    margin-bottom: 30px; /* Added this line */
+    }
+    @keyframes scroll-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+    }
+    
+    @keyframes scroll-right {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+    }
+    .carousel-track {
+      display: flex;
+      width: max-content;
+      will-change: transform;
+    }
 
-        @keyframes scroll-left {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+    .frontend-track {
+      animation: scroll-left 40s linear infinite;
+    }
 
-        @keyframes scroll-right {
-            0% { transform: translateX(-50%); }
-            100% { transform: translateX(0); }
-        }
+    .backend-track {
+      animation: scroll-right 35s linear infinite;
+    }
 
-        .carousel-track {
-            display: flex;
-            width: max-content;
-            will-change: transform;
-        }
+    .carousel-track:hover {
+      animation-play-state: paused;
+    }
 
-        .frontend-track {
-            animation: scroll-left 40s linear infinite;
-        }
+    .skill-circle {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--gunmetal);
+      border: 2px solid var(--neon-cyan);
+      margin: 0 15px;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
 
-        .backend-track {
-            animation: scroll-right 35s linear infinite;
-        }
+    .frontend-track .skill-circle:hover {
+      transform: scale(1.15) translateY(-5px);
+      box-shadow: 0 10px 25px rgba(102, 252, 241, 0.4);
+      background: rgba(102, 252, 241, 0.15);
+      z-index: 10;
+    }
 
-        .carousel-track:hover {
-            animation-play-state: paused;
-        }
+    .backend-track .skill-circle {
+      border-color: var(--ronin-red);
+    }
 
-        .skill-circle {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: var(--gunmetal);
-            border: 2px solid var(--neon-cyan);
-            margin: 0 15px;
-            transition: all 0.3s ease;
-            flex-shrink: 0;
-            position: relative;
-            z-index: 1;
-        }
+    .backend-track .skill-circle:hover {
+      transform: scale(1.15) translateY(-5px);
+      box-shadow: 0 10px 25px rgba(255, 46, 99, 0.4);
+      background: rgba(255, 46, 99, 0.15);
+      z-index: 10;
+    }
 
-        .frontend-track .skill-circle:hover {
-            transform: scale(1.15) translateY(-5px);
-            box-shadow: 0 10px 25px rgba(102, 252, 241, 0.4);
-            background: rgba(102, 252, 241, 0.15);
-            z-index: 10;
-        }
+    .glass-card {
+      background: rgba(31, 40, 51, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(197, 198, 199, 0.1);
+    }
 
-        .backend-track .skill-circle {
-            border-color: var(--ronin-red);
-        }
+    .glitch-btn {
+      position: relative;
+      overflow: hidden;
+      transition: 0.3s;
+    }
 
-        .backend-track .skill-circle:hover {
-            transform: scale(1.15) translateY(-5px);
-            box-shadow: 0 10px 25px rgba(255, 46, 99, 0.4);
-            background: rgba(255, 46, 99, 0.15);
-            z-index: 10;
-        }
+    .glitch-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: 0.5s;
+    }
 
-        .glass-card {
-            background: rgba(31, 40, 51, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(197, 198, 199, 0.1);
-        }
+    .glitch-btn:hover::after {
+      left: 100%;
+    }
 
-        .glitch-btn {
-            position: relative;
-            overflow: hidden;
-            transition: 0.3s;
-        }
-        
-        .glitch-btn::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-        }
+    .tag-pill {
+      background: rgba(102, 252, 241, 0.1);
+      border: 1px solid var(--neon-cyan);
+      color: var(--neon-cyan);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.65rem;
+      font-family: 'Space Mono', monospace;
+    }
 
-        .glitch-btn:hover::after {
-            left: 100%;
-        }
+    .project-card {
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
 
-        .tag-pill {
-            background: rgba(102, 252, 241, 0.1);
-            border: 1px solid var(--neon-cyan);
-            color: var(--neon-cyan);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.65rem;
-            font-family: 'Space Mono', monospace;
-        }
+    .project-card:hover {
+      transform: translateY(-10px);
+    }
 
-        .project-card {
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .project-card:hover {
-            transform: translateY(-10px);
-        }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--void-black); }
-        ::-webkit-scrollbar-thumb { background: var(--gunmetal); border-radius: 10px; border: 2px solid var(--neon-cyan); }
+    ::-webkit-scrollbar-track {
+      background: var(--void-black);
+    }
 
-        /* Smooth fade-in animation */
-        .fade-in-section {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
+    ::-webkit-scrollbar-thumb {
+      background: var(--gunmetal);
+      border-radius: 10px;
+      border: 2px solid var(--neon-cyan);
+    }
 
-        .fade-in-section.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    /* Smooth fade-in animation */
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
 
-        /* Join section background */
-        .join-section-bg {
-            background: linear-gradient(180deg, 
-                var(--void-black) 0%,
-                rgba(31, 40, 51, 0.95) 50%,
-                rgba(31, 40, 51, 0.7) 100%
-            );
-            border-top: 1px solid rgba(102, 252, 241, 0.1);
-            border-bottom: 1px solid rgba(102, 252, 241, 0.1);
-        }
+    .fade-in-section.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-        /* Team member card hover effect */
-        .team-member-card {
-            transition: all 0.3s ease;
-        }
+    /* Join section background */
+    .join-section-bg {
+      background: linear-gradient(180deg,
+          var(--void-black) 0%,
+          rgba(31, 40, 51, 0.95) 50%,
+          rgba(31, 40, 51, 0.7) 100%);
+      border-top: 1px solid rgba(102, 252, 241, 0.1);
+      border-bottom: 1px solid rgba(102, 252, 241, 0.1);
+    }
 
-        .team-member-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--neon-cyan);
-            box-shadow: 0 10px 30px rgba(102, 252, 241, 0.2);
-        }
-    </style>
+    /* Team member card hover effect */
+    .team-member-card {
+      transition: all 0.3s ease;
+    }
+
+    .team-member-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 10px 30px rgba(102, 252, 241, 0.2);
+    }
+  </style>
 </head>
+
 <body class="antialiased">
 
-    <!-- Header / Navbar -->
-    <nav class="fixed w-full z-50 px-6 py-4 flex justify-between items-center glass-card">
-        <div class="flex items-center space-x-2">
-            <div class="w-8 h-8 ronin-gradient rounded-sm transform rotate-45 flex items-center justify-center">
-                <i data-lucide="terminal" class="text-white transform -rotate-45 w-5 h-5"></i>
-            </div>
-            <span class="text-xl font-bold mono tracking-tighter neon-text uppercase">Code Ronins</span>
+  <!-- Header / Navbar -->
+  <nav class="fixed w-full z-50 px-6 py-4 flex justify-between items-center glass-card">
+    <div class="flex items-center space-x-2">
+      <div class="w-8 h-8 ronin-gradient rounded-sm transform rotate-45 flex items-center justify-center">
+        <i data-lucide="terminal" class="text-white transform -rotate-45 w-5 h-5"></i>
+      </div>
+      <span class="text-xl font-bold mono tracking-tighter neon-text uppercase">Code Ronins</span>
+    </div>
+    <div class="hidden md:flex space-x-8 mono text-sm font-medium">
+      <a href="#philosophy" class="hover:text-[var(--neon-cyan)] transition">.philosophy()</a>
+      <a href="#skills" class="hover:text-[var(--neon-cyan)] transition">.skills()</a>
+      <a href="#team" class="hover:text-[var(--neon-cyan)] transition">.team()</a>
+      <a href="#creations" class="hover:text-[var(--neon-cyan)] transition">.creations()</a>
+    </div>
+    <a href="#join"
+      class="mono text-xs border border-[var(--ronin-red)] px-4 py-2 text-[var(--ronin-red)] hover:bg-[var(--ronin-red)] hover:text-white transition">CONNECT</a>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative min-h-screen flex items-center justify-center pt-20 px-6 overflow-hidden fade-in-section">
+    <div class="absolute inset-0 opacity-10 pointer-events-none">
+      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-[var(--neon-cyan)] rounded-full filter blur-[100px]"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[var(--ronin-red)] rounded-full filter blur-[100px]"></div>
+    </div>
+
+    <div class="max-w-4xl text-center z-10">
+      <h2 class="mono text-[var(--neon-cyan)] mb-4 tracking-widest text-sm md:text-base animate-pulse">INITIATING
+        PROTOCOL...</h2>
+      <h1 class="text-5xl md:text-8xl font-bold mb-6 mono uppercase tracking-tighter text-white">
+        CODE <span class="text-[var(--ronin-red)]">RONINS</span>
+      </h1>
+      <p class="text-xl md:text-2xl font-light mb-10 text-[var(--mist)] italic">
+        Masterless Developers Building The Future
+      </p>
+      <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+        <a href="#creations"
+          class="glitch-btn px-8 py-4 ronin-gradient text-white mono font-bold rounded-sm w-full md:w-auto text-center">VIEW
+          ARTIFACTS</a>
+        <a href="#philosophy"
+          class="px-8 py-4 border border-[var(--neon-cyan)] text-[var(--neon-cyan)] mono font-bold rounded-sm w-full md:w-auto hover:bg-[var(--neon-cyan)] hover:text-black transition text-center">OUR
+          CREED</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Philosophy -->
+  <section id="philosophy" class="py-24 px-6 bg-[var(--gunmetal)] relative fade-in-section">
+    <div class="max-w-4xl mx-auto">
+      <div class="flex items-center space-x-4 mb-8">
+        <div class="h-[1px] flex-grow bg-[var(--neon-cyan)] opacity-30"></div>
+        <h2 class="mono text-2xl text-[var(--neon-cyan)]">01. PHILOSOPHY</h2>
+        <div class="h-[1px] w-12 bg-[var(--neon-cyan)] opacity-30"></div>
+      </div>
+      <div class="glass-card p-8 md:p-12 border-l-4 border-[var(--ronin-red)]">
+        <p class="text-lg md:text-2xl leading-relaxed text-[var(--mist)]">
+          We are a team of <span class="text-white font-semibold">Masterless Developers</span>, constantly building and
+          evolving without masters — true to our Ronin name. Each of us brings unique skills and perspectives, united by
+          our passion for creating innovative digital solutions.
+        </p>
+        <p class="text-lg md:text-2xl mt-6 leading-relaxed text-[var(--mist)]">
+          We build not for glory, but for <span class="text-[var(--neon-cyan)]">Impact</span> — crafting code that
+          solves real problems and creates meaningful experiences.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section with Improved Infinite Carousel -->
+  <section id="skills" class="py-24 overflow-hidden fade-in-section">
+    <div class="max-w-6xl mx-auto px-6 mb-16">
+      <h2 class="mono text-2xl text-[var(--neon-cyan)] mb-2">02. ARSENAL</h2>
+      <p class="text-[var(--mist)]">Our technological specializations across the stack.</p>
+    </div>
+
+    <!-- Frontend Carousel -->
+    <div class="mb-12">
+      <h3 class="mono text-center text-sm mb-6 uppercase tracking-widest opacity-90 text-[var(--neon-cyan)]">Frontend & Mobile
+      </h3>
+      <div class="carousel-container">
+        <div class="carousel-track frontend-track">
+          <!-- Frontend skills - quadrupled for seamless infinite loop -->
+          <div class="skill-circle">
+            <i data-lucide="layout" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">HTML5</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="palette" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">CSS3</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="code-2" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">JS</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="smartphone" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">R-NATIVE</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="file-json" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">TS</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="cpu" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">REACT</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="box" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">NEXT.JS</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="zap" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">VUE</span>
+          </div>
+          <!-- Repeat 1 -->
+          <div class="skill-circle">
+            <i data-lucide="layout" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">HTML5</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="palette" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">CSS3</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="code-2" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">JS</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="smartphone" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">R-NATIVE</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="file-json" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">TS</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="cpu" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">REACT</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="box" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">NEXT.JS</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="zap" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">VUE</span>
+          </div>
+          <!-- Repeat 2 -->
+          <div class="skill-circle">
+            <i data-lucide="layout" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">HTML5</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="palette" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">CSS3</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="code-2" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">JS</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="smartphone" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">R-NATIVE</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="file-json" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">TS</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="cpu" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">REACT</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="box" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">NEXT.JS</span>
+          </div>
+          <div class="skill-circle">
+            <i data-lucide="zap" class="text-[var(--neon-cyan)] mb-1"></i>
+            <span class="mono text-[10px]">VUE</span>
+          </div>
         </div>
-        <div class="hidden md:flex space-x-8 mono text-sm font-medium">
-            <a href="#philosophy" class="hover:text-[var(--neon-cyan)] transition">.philosophy()</a>
-            <a href="#skills" class="hover:text-[var(--neon-cyan)] transition">.skills()</a>
-            <a href="#team" class="hover:text-[var(--neon-cyan)] transition">.team()</a>
-            <a href="#creations" class="hover:text-[var(--neon-cyan)] transition">.creations()</a>
-        </div>
-        <a href="#join" class="mono text-xs border border-[var(--ronin-red)] px-4 py-2 text-[var(--ronin-red)] hover:bg-[var(--ronin-red)] hover:text-white transition">CONNECT</a>
-    </nav>
+      </div>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="relative min-h-screen flex items-center justify-center pt-20 px-6 overflow-hidden fade-in-section">
-        <div class="absolute inset-0 opacity-10 pointer-events-none">
-            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-[var(--neon-cyan)] rounded-full filter blur-[100px]"></div>
-            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[var(--ronin-red)] rounded-full filter blur-[100px]"></div>
+    <!-- Backend Carousel -->
+    <div class="mb-24">
+      <h3 class="mono text-center text-sm mb-6 uppercase tracking-widest opacity-50 text-[var(--ronin-red)]">Backend &
+        Logic</h3>
+      <div class="carousel-container">
+        <div class="carousel-track backend-track">
+          <!-- Backend skills - quadrupled for seamless infinite loop -->
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="server" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">NODEJS</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="container" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">FLASK</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="database" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">POSTGRES</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="flame" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">FIREBASE</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="webhook" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">REST API</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="git-branch" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">GIT</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="box" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">DOCKER</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="cloud" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">AWS</span>
+          </div>
+          <!-- Repeat 1 -->
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="server" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">NODEJS</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="container" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">FLASK</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="database" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">POSTGRES</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="flame" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">FIREBASE</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="webhook" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">REST API</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="git-branch" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">GIT</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="box" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">DOCKER</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="cloud" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">AWS</span>
+          </div>
+          <!-- Repeat 2 -->
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="server" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">NODEJS</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="container" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">FLASK</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="database" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">POSTGRES</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="flame" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">FIREBASE</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="webhook" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">REST API</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="git-branch" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">GIT</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="box" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">DOCKER</span>
+          </div>
+          <div class="skill-circle" style="border-color: var(--ronin-red);">
+            <i data-lucide="cloud" class="text-[var(--ronin-red)] mb-1"></i>
+            <span class="mono text-[10px]">AWS</span>
+          </div>
         </div>
+      </div>
+    </div>
 
-        <div class="max-w-4xl text-center z-10">
-            <h2 class="mono text-[var(--neon-cyan)] mb-4 tracking-widest text-sm md:text-base animate-pulse">INITIATING PROTOCOL...</h2>
-            <h1 class="text-5xl md:text-8xl font-bold mb-6 mono uppercase tracking-tighter text-white">
-                CODE <span class="text-[var(--ronin-red)]">RONINS</span>
-            </h1>
-            <p class="text-xl md:text-2xl font-light mb-10 text-[var(--mist)] italic">
-                Masterless Developers Building The Future
-            </p>
-            <div class="flex flex-col md:flex-row items-center justify-center gap-4">
-                <a href="#creations" class="glitch-btn px-8 py-4 ronin-gradient text-white mono font-bold rounded-sm w-full md:w-auto text-center">VIEW ARTIFACTS</a>
-                <a href="#philosophy" class="px-8 py-4 border border-[var(--neon-cyan)] text-[var(--neon-cyan)] mono font-bold rounded-sm w-full md:w-auto hover:bg-[var(--neon-cyan)] hover:text-black transition text-center">OUR CREED</a>
-            </div>
+    <!-- Common Skills with same background as carousels -->
+    <div class="max-w-4xl mx-auto px-6">
+      <h3 class="mono text-center text-sm mb-6 uppercase tracking-widest opacity-90 text-[var(--neon-cyan)]">Common Skills
+      </h3>
+      <div class="carousel-container bg-transparent p-0 mask-none">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 p-6 bg-[rgba(31,40,51,0.6)] rounded-lg">
+          <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+            <i data-lucide="search" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
+            <span class="mono text-sm">Research</span>
+          </div>
+          <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+            <i data-lucide="languages" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
+            <span class="mono text-sm">Multilanguage</span>
+          </div>
+          <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+            <i data-lucide="presentation" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
+            <span class="mono text-sm">Presentation</span>
+          </div>
+          <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+            <i data-lucide="users" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
+            <span class="mono text-sm">Leadership</span>
+          </div>
+          <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+            <i data-lucide="share-2" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
+            <span class="mono text-sm">Collaboration</span>
+          </div>
+          <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+            <i data-lucide="brain-circuit" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
+            <span class="mono text-sm">Problem Solving</span>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
 
-    <!-- Philosophy -->
-    <section id="philosophy" class="py-24 px-6 bg-[var(--gunmetal)] relative fade-in-section">
-        <div class="max-w-4xl mx-auto">
-            <div class="flex items-center space-x-4 mb-8">
-                <div class="h-[1px] flex-grow bg-[var(--neon-cyan)] opacity-30"></div>
-                <h2 class="mono text-2xl text-[var(--neon-cyan)]">01. PHILOSOPHY</h2>
-                <div class="h-[1px] w-12 bg-[var(--neon-cyan)] opacity-30"></div>
-            </div>
-            <div class="glass-card p-8 md:p-12 border-l-4 border-[var(--ronin-red)]">
-                <p class="text-lg md:text-2xl leading-relaxed text-[var(--mist)]">
-                    We are a team of <span class="text-white font-semibold">Masterless Developers</span>, constantly building and evolving without masters — true to our Ronin name. Each of us brings unique skills and perspectives, united by our passion for creating innovative digital solutions.
-                </p>
-                <p class="text-lg md:text-2xl mt-6 leading-relaxed text-[var(--mist)]">
-                    We build not for glory, but for <span class="text-[var(--neon-cyan)]">Impact</span> — crafting code that solves real problems and creates meaningful experiences.
-                </p>
-            </div>
+  <!-- Team Section (Game Card Removed) -->
+  <section id="team" class="py-24 bg-[var(--void-black)] relative fade-in-section">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+        <div>
+          <h2 class="mono text-2xl text-[var(--neon-cyan)]">03. THE RONINS</h2>
+          <p class="text-[var(--mist)] mt-2">A collective of unique talents, unbound by convention.</p>
         </div>
-    </section>
-
-    <!-- Skills Section with Improved Infinite Carousel -->
-    <section id="skills" class="py-24 overflow-hidden fade-in-section">
-        <div class="max-w-6xl mx-auto px-6 mb-16">
-            <h2 class="mono text-2xl text-[var(--neon-cyan)] mb-2">02. ARSENAL</h2>
-            <p class="text-[var(--mist)]">Our technological specializations across the stack.</p>
+        <div
+          class="text-white mono text-xs uppercase tracking-widest bg-[var(--ronin-red)] bg-opacity-10 px-3 py-1 border border-[var(--ronin-red)]">
+          Current Squad Count: 05
         </div>
+      </div>
 
-        <!-- Frontend Carousel -->
-        <div class="mb-12">
-            <h3 class="mono text-center text-sm mb-6 uppercase tracking-widest opacity-50 text-[var(--neon-cyan)]">Frontend & Mobile</h3>
-            <div class="carousel-container">
-                <div class="carousel-track frontend-track">
-                    <!-- Frontend skills - quadrupled for seamless infinite loop -->
-                    <div class="skill-circle">
-                        <i data-lucide="layout" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">HTML5</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="palette" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">CSS3</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="code-2" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">JS</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="smartphone" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">R-NATIVE</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="file-json" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">TS</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="cpu" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">REACT</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="box" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">NEXT.JS</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="zap" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">VUE</span>
-                    </div>
-                    <!-- Repeat 1 -->
-                    <div class="skill-circle">
-                        <i data-lucide="layout" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">HTML5</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="palette" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">CSS3</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="code-2" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">JS</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="smartphone" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">R-NATIVE</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="file-json" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">TS</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="cpu" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">REACT</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="box" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">NEXT.JS</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="zap" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">VUE</span>
-                    </div>
-                    <!-- Repeat 2 -->
-                    <div class="skill-circle">
-                        <i data-lucide="layout" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">HTML5</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="palette" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">CSS3</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="code-2" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">JS</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="smartphone" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">R-NATIVE</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="file-json" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">TS</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="cpu" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">REACT</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="box" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">NEXT.JS</span>
-                    </div>
-                    <div class="skill-circle">
-                        <i data-lucide="zap" class="text-[var(--neon-cyan)] mb-1"></i>
-                        <span class="mono text-[10px]">VUE</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Backend Carousel -->
-        <div class="mb-24">
-            <h3 class="mono text-center text-sm mb-6 uppercase tracking-widest opacity-50 text-[var(--ronin-red)]">Backend & Logic</h3>
-            <div class="carousel-container">
-                <div class="carousel-track backend-track">
-                    <!-- Backend skills - quadrupled for seamless infinite loop -->
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="server" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">NODEJS</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="container" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">FLASK</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="database" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">POSTGRES</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="flame" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">FIREBASE</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="webhook" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">REST API</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="git-branch" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">GIT</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="box" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">DOCKER</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="cloud" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">AWS</span>
-                    </div>
-                    <!-- Repeat 1 -->
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="server" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">NODEJS</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="container" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">FLASK</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="database" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">POSTGRES</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="flame" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">FIREBASE</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="webhook" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">REST API</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="git-branch" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">GIT</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="box" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">DOCKER</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="cloud" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">AWS</span>
-                    </div>
-                    <!-- Repeat 2 -->
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="server" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">NODEJS</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="container" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">FLASK</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="database" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">POSTGRES</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="flame" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">FIREBASE</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="webhook" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">REST API</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="git-branch" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">GIT</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="box" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">DOCKER</span>
-                    </div>
-                    <div class="skill-circle" style="border-color: var(--ronin-red);">
-                        <i data-lucide="cloud" class="text-[var(--ronin-red)] mb-1"></i>
-                        <span class="mono text-[10px]">AWS</span>
-                    </div>
-                </div>
-            </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Team Members (all 5 members with improved layout) -->
+        <div class="team-member-card glass-card p-6 rounded-none group border border-transparent">
+          <div
+            class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
+            <i data-lucide="user" class="text-[var(--neon-cyan)]"></i>
+          </div>
+          <h3 class="text-xl font-bold mono text-white uppercase">Ellen</h3>
+          <p class="text-[var(--neon-cyan)] text-sm mono mb-4">Team Leader & Lead Developer</p>
+          <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
+          <p class="text-xs text-[var(--mist)] uppercase tracking-wider">Status: ACTIVE_COMMANDER</p>
         </div>
 
-        <!-- Common Skills -->
-        <div class="max-w-4xl mx-auto px-6 grid grid-cols-2 md:grid-cols-3 gap-6">
-            <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
-                <i data-lucide="search" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
-                <span class="mono text-sm">Research</span>
+        <div class="team-member-card glass-card p-6 rounded-none group border border-transparent">
+          <div
+            class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
+            <i data-lucide="microscope" class="text-[var(--neon-cyan)]"></i>
+          </div>
+          <h3 class="text-xl font-bold mono text-white uppercase">Karmughilan</h3>
+          <p class="text-[var(--neon-cyan)] text-sm mono mb-4">Researcher & Project Manager</p>
+          <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
+          <p class="text-xs text-[var(--mist)] uppercase tracking-wider">Status: INTEL_SPECIALIST</p>
+        </div>
+
+        <div class="team-member-card glass-card p-6 rounded-none group border border-transparent">
+          <div
+            class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
+            <i data-lucide="monitor" class="text-[var(--neon-cyan)]"></i>
+          </div>
+          <h3 class="text-xl font-bold mono text-white uppercase">Shahana</h3>
+          <p class="text-[var(--neon-cyan)] text-sm mono mb-4">Project Presenter & Frontend Developer</p>
+          <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
+          <p class="text-xs text-[var(--mist)] uppercase tracking-wider">Status: UI_ARCHITECT</p>
+        </div>
+
+        <div class="team-member-card glass-card p-6 rounded-none group border border-transparent">
+          <div
+            class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
+            <i data-lucide="layers" class="text-[var(--neon-cyan)]"></i>
+          </div>
+          <h3 class="text-xl font-bold mono text-white uppercase">Nishanth</h3>
+          <p class="text-[var(--neon-cyan)] text-sm mono mb-4">Full Stack Developer</p>
+          <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
+          <p class="text-xs text-[var(--mist)] uppercase tracking-wider">Status: OMNI_DEVELOPER</p>
+        </div>
+
+        <div class="team-member-card glass-card p-6 rounded-none group border border-transparent">
+          <div
+            class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
+            <i data-lucide="database" class="text-[var(--neon-cyan)]"></i>
+          </div>
+          <h3 class="text-xl font-bold mono text-white uppercase">Soundarya</h3>
+          <p class="text-[var(--neon-cyan)] text-sm mono mb-4">Backend Developer</p>
+          <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
+          <p class="text-xs text-[var(--mist)] uppercase tracking-wider">Status: CORE_ENGINEER</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Creations Section -->
+  <section id="creations" class="py-24 px-6 relative bg-[var(--gunmetal)] bg-opacity-30 fade-in-section">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="mono text-2xl text-[var(--neon-cyan)] mb-12 uppercase tracking-widest">04. Artifacts</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- CIVI-Connect Card -->
+        <div class="project-card glass-card p-6 border-t-2 border-[var(--neon-cyan)] flex flex-col h-full">
+          <div class="flex justify-between items-start mb-6">
+            <div class="w-14 h-14 bg-[var(--neon-cyan)] flex items-center justify-center rounded-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                <line x1="12" y1="18" x2="12.01" y2="18" />
+              </svg>
             </div>
-            <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
-                <i data-lucide="languages" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
-                <span class="mono text-sm">Multilanguage</span>
+            <i data-lucide="external-link" class="w-5 h-5 text-[var(--mist)] cursor-pointer hover:text-white transition"></i>
+          </div>
+          <h3 class="text-xl font-bold mono text-white mb-3 uppercase tracking-tight">CIVI-Connect</h3>
+          <p class="text-sm text-[var(--mist)] mb-6 flex-grow leading-relaxed">
+            A revolutionary mobile application that bridges the gap between citizens and local government services.
+            Enabling efficient communication and real-time updates for community development.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-auto">
+            <span class="tag-pill">React Native</span>
+            <span class="tag-pill">Flask</span>
+            <span class="tag-pill">PostgreSQL</span>
+            <span class="tag-pill">Firebase</span>
+          </div>
+        </div>
+
+        <!-- PromptBud Card -->
+        <div class="project-card glass-card p-6 border-t-2 border-[var(--ronin-red)] flex flex-col h-full">
+          <div class="flex justify-between items-start mb-6">
+            <div class="w-14 h-14 bg-[var(--ronin-red)] flex items-center justify-center rounded-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
             </div>
-            <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
-                <i data-lucide="presentation" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
-                <span class="mono text-sm">Presentation</span>
-            </div>
-            <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
-                <i data-lucide="users" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
-                <span class="mono text-sm">Leadership</span>
-            </div>
-            <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
-                <i data-lucide="share-2" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
-                <span class="mono text-sm">Collaboration</span>
-            </div>
-            <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
-                <i data-lucide="brain-circuit" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
-                        <span class="mono text-sm">Problem Solving</span>
-                    </div>
-                </div>
-            </section>
+            <i data-lucide="external-link" class="w-5 h-5 text-[var(--mist)] cursor-pointer hover:text-white transition"></i>
+          </div>
+          <h3 class="text-xl font-bold mono text-white mb-3 uppercase tracking-tight">PromptBud</h3>
+          <p class="text-sm text-[var(--mist)] mb-6 flex-grow leading-relaxed">
+            A revolutionary platform designed for AI enthusiasts, prompt engineers, and creative minds to discover,
+            share, and collaborate on the most effective AI prompts.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-auto">
+            <span class="tag-pill" style="border-color: var(--ronin-red); color: var(--ronin-red); background: rgba(255,46,99,0.1)">AI/LLM</span>
+            <span class="tag-pill" style="border-color: var(--ronin-red); color: var(--ronin-red); background: rgba(255,46,99,0.1)">Collaborative</span>
+            <span class="tag-pill" style="border-color: var(--ronin-red); color: var(--ronin-red); background: rgba(255,46,99,0.1)">Next.js</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-            <!-- Team Section (Game Card Removed) -->
-            <section id="team" class="py-24 bg-[var(--void-black)] relative fade-in-section">
-                <div class="max-w-6xl mx-auto px-6">
-                    <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
-                        <div>
-                            <h2 class="mono text-2xl text-[var(--neon-cyan)]">03. THE RONINS</h2>
-                            <p class="text-[var(--mist)] mt-2">A collective of unique talents, unbound by convention.</p>
-                        </div>
-                        <div class="text-white mono text-xs uppercase tracking-widest bg-[var(--ronin-red)] bg-opacity-10 px-3 py-1 border border-[var(--ronin-red)]">
-                            Current Squad Count: 05
-                        </div>
-                    </div>
+  <!-- Join Our Journey Section with Dark Grey Background -->
+  <section id="join" class="join-section-bg py-24 relative overflow-hidden fade-in-section">
+    <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+      <h2 class="text-4xl md:text-5xl font-bold mb-8 mono uppercase tracking-tighter text-white">Join Our Journey</h2>
+      <p class="text-lg text-[var(--mist)] mb-10 leading-relaxed">
+        Ready to build something extraordinary together? We're always looking for new challenges and opportunities to
+        create impactful solutions. Let's combine our skills and vision to build the future.
+      </p>
+      <a href="mailto:coderonins@gmail.com"
+        class="glitch-btn inline-block px-10 py-4 bg-[var(--neon-cyan)] text-black mono font-bold text-base rounded-sm hover:shadow-[0_0_30px_#66FCF1] transition-shadow duration-300">
+        START A PROJECT
+      </a>
+    </div>
+  </section>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <!-- Team Members (all 5 members with improved layout) -->
-                        <div class="team-member-card glass-card p-6 rounded-none group border border-transparent">
-                            <div class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
-                                <i data-lucide="user" class="text-[var(--neon-cyan)]"></i>
-                            </div>
-                            <h3 class="text-xl font-bold mono text-white uppercase">Ellen</h3>
-                            <p class="text-[var(--neon-cyan)] text-sm mono mb-4">Team Leader & Lead Developer</p>
-                            <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
-                            <p class="text-xs text-[var(--mist)] uppercase tracking-wider">Status: ACTIVE_COMMANDER</p>
-                        </div>
+  <!-- Footer -->
+  <footer class="py-12 border-t border-white border-opacity-5 px-6 bg-[var(--void-black)]">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+      <div class="flex items-center space-x-2">
+        <div class="w-6 h-6 ronin-gradient rounded-sm transform rotate-45 flex items-center justify-center">
+          <i data-lucide="terminal" class="text-white transform -rotate-45 w-4 h-4"></i>
+        </div>
+        <span class="mono text-sm tracking-tighter neon-text uppercase font-bold">Code Ronins</span>
+      </div>
 
-                        <div class="team-member-card glass-card p-6 rounded-none group border border-transparent">
-                            <div class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
-                                <i data-lucide="microscope" class="text-[var(--neon-cyan)]"></i>
-                            </div>
-                            <h3 class="text-xl font-bold mono text-white uppercase">Karmughilan</h3>
-                            <p class="text-[var(--neon-cyan)] text-sm mono mb-4">Researcher & Project Manager</p>
-                            <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
-                            <p class="text-xs text-[var(--mist)] uppercase tracking-wider">Status: INTEL_SPECIALIST</p>
-                        </div>
+      <div class="flex space-x-6">
+        <a href="#"
+          class="text-[var(--mist)] hover:text-[var(--neon-cyan)] transition"><i data-lucide="github" class="w-5 h-5"></i></a>
+        <a href="#"
+          class="text-[var(--mist)] hover:text-[var(--neon-cyan)] transition"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+        <a href="#"
+          class="text-[var(--mist)] hover:text-[var(--neon-cyan)] transition"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+        <a href="mailto:coderonins@gmail.com"
+          class="text-[var(--mist)] hover:text-[var(--neon-cyan)] transition"><i data-lucide="mail" class="w-5 h-5"></i></a>
+      </div>
 
-                        <div class="team-member-card glass-card p-6 rounded-none group border border-transparent">
-                            <div class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
-                                <i data-lucide="monitor" class="text-[var(--neon-cyan)]"></i>
-                            </div>
-                            <h3 class="text-xl font-bold mono text-white uppercase">Shahana</h3>
-                            <p class="text-[var(--neon-cyan)] text-sm mono mb-4">Project Presenter & Frontend Developer</p>
-                            <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
-                            <p class="text-xs text-[var(--mist)] uppercase tracking-wider">Status: UI_ARCHITECT</p>
-                        </div>
+      <p class="mono text-[10px] uppercase tracking-widest text-[var(--mist)] opacity-40">
+        &copy; 2024 CODE_RONINS // NO MASTERS // ONLY CODE
+      </p>
+    </div>
+  </footer>
 
-                        <div class="team-member-card glass-card p-6 rounded-none group border border-transparent">
-                            <div class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
-                                <i data-lucide="layers" class="text-[var(--neon-cyan)]"></i>
-                            </div>
-                            <h3 class="text-xl font-bold mono text-white uppercase">Nishanth</h3>
-                            <p class="text-[var(--neon-cyan)] text-sm mono mb-4">Full Stack Developer</p>
-                            <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
-                            <p class="text-xs text-[var(--mist)] uppercase tracking-wider">Status: OMNI_DEVELOPER</p>
-                        </div>
-
-                        <div class="team-member-card glass-card p-6 rounded-none group border border-transparent">
-                            <div class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
-                                <i data-lucide="database" class="text-[var(--neon-cyan)]"></i>
-                            </div>
-                            <h3 class="text-xl font-bold mono text-white uppercase">Soundarya</h3>
-                            <p class="text-[var(--neon-cyan)] text-sm mono mb-4">Backend Developer</p>
-                            <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
-                            <p class="text-xs text-[var(--mist)] uppercase tracking-wider">Status: CORE_ENGINEER</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Creations Section -->
-            <section id="creations" class="py-24 px-6 relative bg-[var(--gunmetal)] bg-opacity-30 fade-in-section">
-                <div class="max-w-6xl mx-auto">
-                    <h2 class="mono text-2xl text-[var(--neon-cyan)] mb-12 uppercase tracking-widest">04. Artifacts</h2>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <!-- CIVI-Connect Card -->
-                        <div class="project-card glass-card p-6 border-t-2 border-[var(--neon-cyan)] flex flex-col h-full">
-                            <div class="flex justify-between items-start mb-6">
-                                <div class="w-14 h-14 bg-[var(--neon-cyan)] flex items-center justify-center rounded-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-                                </div>
-                                <i data-lucide="external-link" class="w-5 h-5 text-[var(--mist)] cursor-pointer hover:text-white transition"></i>
-                            </div>
-                            <h3 class="text-xl font-bold mono text-white mb-3 uppercase tracking-tight">CIVI-Connect</h3>
-                            <p class="text-sm text-[var(--mist)] mb-6 flex-grow leading-relaxed">
-                                A revolutionary mobile application that bridges the gap between citizens and local government services. Enabling efficient communication and real-time updates for community development.
-                            </p>
-                            <div class="flex flex-wrap gap-2 mt-auto">
-                                <span class="tag-pill">React Native</span>
-                                <span class="tag-pill">Flask</span>
-                                <span class="tag-pill">PostgreSQL</span>
-                                <span class="tag-pill">Firebase</span>
-                            </div>
-                        </div>
-
-                        <!-- PromptBud Card -->
-                        <div class="project-card glass-card p-6 border-t-2 border-[var(--ronin-red)] flex flex-col h-full">
-                            <div class="flex justify-between items-start mb-6">
-                                <div class="w-14 h-14 bg-[var(--ronin-red)] flex items-center justify-center rounded-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                                </div>
-                                <i data-lucide="external-link" class="w-5 h-5 text-[var(--mist)] cursor-pointer hover:text-white transition"></i>
-                            </div>
-                            <h3 class="text-xl font-bold mono text-white mb-3 uppercase tracking-tight">PromptBud</h3>
-                            <p class="text-sm text-[var(--mist)] mb-6 flex-grow leading-relaxed">
-                                A revolutionary platform designed for AI enthusiasts, prompt engineers, and creative minds to discover, share, and collaborate on the most effective AI prompts.
-                            </p>
-                            <div class="flex flex-wrap gap-2 mt-auto">
-                                <span class="tag-pill" style="border-color: var(--ronin-red); color: var(--ronin-red); background: rgba(255,46,99,0.1)">AI/LLM</span>
-                                <span class="tag-pill" style="border-color: var(--ronin-red); color: var(--ronin-red); background: rgba(255,46,99,0.1)">Collaborative</span>
-                                <span class="tag-pill" style="border-color: var(--ronin-red); color: var(--ronin-red); background: rgba(255,46,99,0.1)">Next.js</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Join Our Journey Section with Dark Grey Background -->
-            <section id="join" class="join-section-bg py-24 relative overflow-hidden fade-in-section">
-                <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
-                    <h2 class="text-4xl md:text-5xl font-bold mb-8 mono uppercase tracking-tighter text-white">Join Our Journey</h2>
-                    <p class="text-lg text-[var(--mist)] mb-10 leading-relaxed">
-                        Ready to build something extraordinary together? We're always looking for new challenges and opportunities to create impactful solutions. Let's combine our skills and vision to build the future.
-                    </p>
-                    <a href="mailto:coderonins@gmail.com" class="glitch-btn inline-block px-10 py-4 bg-[var(--neon-cyan)] text-black mono font-bold text-base rounded-sm hover:shadow-[0_0_30px_#66FCF1] transition-shadow duration-300">
-                        START A PROJECT
-                    </a>
-                </div>
-            </section>
-
-            <!-- Footer -->
-            <footer class="py-12 border-t border-white border-opacity-5 px-6 bg-[var(--void-black)]">
-                <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-                    <div class="flex items-center space-x-2">
-                        <div class="w-6 h-6 ronin-gradient rounded-sm transform rotate-45 flex items-center justify-center">
-                            <i data-lucide="terminal" class="text-white transform -rotate-45 w-4 h-4"></i>
-                        </div>
-                        <span class="mono text-sm tracking-tighter neon-text uppercase font-bold">Code Ronins</span>
-                    </div>
-                    
-                    <div class="flex space-x-6">
-                        <a href="#" class="text-[var(--mist)] hover:text-[var(--neon-cyan)] transition"><i data-lucide="github" class="w-5 h-5"></i></a>
-                        <a href="#" class="text-[var(--mist)] hover:text-[var(--neon-cyan)] transition"><i data-lucide="twitter" class="w-5 h-5"></i></a>
-                        <a href="#" class="text-[var(--mist)] hover:text-[var(--neon-cyan)] transition"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
-                        <a href="mailto:coderonins@gmail.com" class="text-[var(--mist)] hover:text-[var(--neon-cyan)] transition"><i data-lucide="mail" class="w-5 h-5"></i></a>
-                    </div>
-
-                    <p class="mono text-[10px] uppercase tracking-widest text-[var(--mist)] opacity-40">
-                        &copy; 2024 CODE_RONINS // NO MASTERS // ONLY CODE
-                    </p>
-                </div>
-            </footer>
-
-            <script>
-                // Initialize Lucide Icons
+  <script>
+    // Initialize Lucide Icons
                 lucide.createIcons();
 
                 // Smooth fade-in on scroll
@@ -729,6 +787,7 @@
                 }, 300000); // 5 minutes
 
                 // Remove the game card click handler since we removed the game card
-            </script>
-        </body>
-        </html>
+  </script>
+</body>
+
+</html>
