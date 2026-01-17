@@ -49,39 +49,45 @@
     }
 
     /* Improved Continuous Carousel - Fixed Infinite Loop */
-    /* Improved Continuous Carousel - Fixed Infinite Loop */
     .carousel-container {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    mask-image: linear-gradient(
-    to right,
-    transparent,
-    black 5%,
-    black 95%,
-    transparent
-    );
-    -webkit-mask-image: linear-gradient(
-    to right,
-    transparent,
-    black 5%,
-    black 95%,
-    transparent
-    );
-    background: rgba(solid black); /* Added this line */
-    border-radius: 12px; /* Added this line */
-    padding: 20px 0; /* Added this line */
-    margin-bottom: 30px; /* Added this line */
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      mask-image: linear-gradient(to right,
+          transparent,
+          black 5%,
+          black 95%,
+          transparent);
+      -webkit-mask-image: linear-gradient(to right,
+          transparent,
+          black 5%,
+          black 95%,
+          transparent);
+      border-radius: 12px;
+      padding: 20px 0;
+      margin-bottom: 30px;
     }
+
     @keyframes scroll-left {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
     }
-    
+
     @keyframes scroll-right {
-    0% { transform: translateX(-50%); }
-    100% { transform: translateX(0); }
+      0% {
+        transform: translateX(-50%);
+      }
+
+      100% {
+        transform: translateX(0);
+      }
     }
+
     .carousel-track {
       display: flex;
       width: max-content;
@@ -299,7 +305,7 @@
     </div>
   </section>
 
-  <!-- Skills Section with Improved Infinite Carousel -->
+  <!-- Skills Section -->
   <section id="skills" class="py-24 overflow-hidden fade-in-section">
     <div class="max-w-6xl mx-auto px-6 mb-16">
       <h2 class="mono text-2xl text-[var(--neon-cyan)] mb-2">02. ARSENAL</h2>
@@ -308,8 +314,8 @@
 
     <!-- Frontend Carousel -->
     <div class="mb-12">
-      <h3 class="mono text-center text-sm mb-6 uppercase tracking-widest opacity-90 text-[var(--neon-cyan)]">Frontend & Mobile
-      </h3>
+      <h3 class="mono text-center text-sm mb-6 uppercase tracking-widest opacity-90 text-[var(--neon-cyan)]">Frontend &
+        Mobile</h3>
       <div class="carousel-container">
         <div class="carousel-track frontend-track">
           <!-- Frontend skills - quadrupled for seamless infinite loop -->
@@ -378,39 +384,6 @@
             <i data-lucide="zap" class="text-[var(--neon-cyan)] mb-1"></i>
             <span class="mono text-[10px]">VUE</span>
           </div>
-          <!-- Repeat 2 -->
-          <div class="skill-circle">
-            <i data-lucide="layout" class="text-[var(--neon-cyan)] mb-1"></i>
-            <span class="mono text-[10px]">HTML5</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="palette" class="text-[var(--neon-cyan)] mb-1"></i>
-            <span class="mono text-[10px]">CSS3</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="code-2" class="text-[var(--neon-cyan)] mb-1"></i>
-            <span class="mono text-[10px]">JS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="smartphone" class="text-[var(--neon-cyan)] mb-1"></i>
-            <span class="mono text-[10px]">R-NATIVE</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="file-json" class="text-[var(--neon-cyan)] mb-1"></i>
-            <span class="mono text-[10px]">TS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="cpu" class="text-[var(--neon-cyan)] mb-1"></i>
-            <span class="mono text-[10px]">REACT</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="box" class="text-[var(--neon-cyan)] mb-1"></i>
-            <span class="mono text-[10px]">NEXT.JS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="zap" class="text-[var(--neon-cyan)] mb-1"></i>
-            <span class="mono text-[10px]">VUE</span>
-          </div>
         </div>
       </div>
     </div>
@@ -421,7 +394,7 @@
         Logic</h3>
       <div class="carousel-container">
         <div class="carousel-track backend-track">
-          <!-- Backend skills - quadrupled for seamless infinite loop -->
+          <!-- Backend skills -->
           <div class="skill-circle" style="border-color: var(--ronin-red);">
             <i data-lucide="server" class="text-[var(--ronin-red)] mb-1"></i>
             <span class="mono text-[10px]">NODEJS</span>
@@ -487,78 +460,45 @@
             <i data-lucide="cloud" class="text-[var(--ronin-red)] mb-1"></i>
             <span class="mono text-[10px]">AWS</span>
           </div>
-          <!-- Repeat 2 -->
-          <div class="skill-circle" style="border-color: var(--ronin-red);">
-            <i data-lucide="server" class="text-[var(--ronin-red)] mb-1"></i>
-            <span class="mono text-[10px]">NODEJS</span>
-          </div>
-          <div class="skill-circle" style="border-color: var(--ronin-red);">
-            <i data-lucide="container" class="text-[var(--ronin-red)] mb-1"></i>
-            <span class="mono text-[10px]">FLASK</span>
-          </div>
-          <div class="skill-circle" style="border-color: var(--ronin-red);">
-            <i data-lucide="database" class="text-[var(--ronin-red)] mb-1"></i>
-            <span class="mono text-[10px]">POSTGRES</span>
-          </div>
-          <div class="skill-circle" style="border-color: var(--ronin-red);">
-            <i data-lucide="flame" class="text-[var(--ronin-red)] mb-1"></i>
-            <span class="mono text-[10px]">FIREBASE</span>
-          </div>
-          <div class="skill-circle" style="border-color: var(--ronin-red);">
-            <i data-lucide="webhook" class="text-[var(--ronin-red)] mb-1"></i>
-            <span class="mono text-[10px]">REST API</span>
-          </div>
-          <div class="skill-circle" style="border-color: var(--ronin-red);">
-            <i data-lucide="git-branch" class="text-[var(--ronin-red)] mb-1"></i>
-            <span class="mono text-[10px]">GIT</span>
-          </div>
-          <div class="skill-circle" style="border-color: var(--ronin-red);">
-            <i data-lucide="box" class="text-[var(--ronin-red)] mb-1"></i>
-            <span class="mono text-[10px]">DOCKER</span>
-          </div>
-          <div class="skill-circle" style="border-color: var(--ronin-red);">
-            <i data-lucide="cloud" class="text-[var(--ronin-red)] mb-1"></i>
-            <span class="mono text-[10px]">AWS</span>
-          </div>
         </div>
       </div>
     </div>
 
-    <!-- Common Skills with same background as carousels -->
+    <!-- Common Skills Section -->
     <div class="max-w-4xl mx-auto px-6">
-      <h3 class="mono text-center text-sm mb-6 uppercase tracking-widest opacity-90 text-[var(--neon-cyan)]">Common Skills
-      </h3>
-      <div class="carousel-container bg-transparent p-0 mask-none">
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 p-6 bg-[rgba(31,40,51,0.6)] rounded-lg">
-          <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
-            <i data-lucide="search" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
-            <span class="mono text-sm">Research</span>
-          </div>
-          <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
-            <i data-lucide="languages" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
-            <span class="mono text-sm">Multilanguage</span>
-          </div>
-          <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
-            <i data-lucide="presentation" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
-            <span class="mono text-sm">Presentation</span>
-          </div>
-          <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
-            <i data-lucide="users" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
-            <span class="mono text-sm">Leadership</span>
-          </div>
-          <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
-            <i data-lucide="share-2" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
-            <span class="mono text-sm">Collaboration</span>
-          </div>
-          <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
-            <i data-lucide="brain-circuit" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
-            <span class="mono text-sm">Problem Solving</span>
-          </div>
+      <h3 class="mono text-center text-sm mb-6 uppercase tracking-widest opacity-90 text-[var(--neon-cyan)]">Common
+        Skills</h3>
+      <div
+        class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 p-6 bg-[rgba(31,40,51,0.6)] rounded-lg border border-white border-opacity-10">
+        <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+          <i data-lucide="search" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
+          <span class="mono text-sm">Research</span>
+        </div>
+        <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+          <i data-lucide="languages" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
+          <span class="mono text-sm">Multilanguage</span>
+        </div>
+        <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+          <i data-lucide="presentation" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
+          <span class="mono text-sm">Presentation</span>
+        </div>
+        <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+          <i data-lucide="users" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
+          <span class="mono text-sm">Leadership</span>
+        </div>
+        <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+          <i data-lucide="share-2" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
+          <span class="mono text-sm">Collaboration</span>
+        </div>
+        <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+          <i data-lucide="brain-circuit" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
+          <span class="mono text-sm">Problem Solving</span>
         </div>
       </div>
     </div>
+  </section>
 
-  <!-- Team Section (Game Card Removed) -->
+  <!-- Team Section -->
   <section id="team" class="py-24 bg-[var(--void-black)] relative fade-in-section">
     <div class="max-w-6xl mx-auto px-6">
       <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
@@ -573,7 +513,7 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Team Members (all 5 members with improved layout) -->
+        <!-- Team Members -->
         <div class="team-member-card glass-card p-6 rounded-none group border border-transparent">
           <div
             class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
@@ -633,9 +573,9 @@
   </section>
 
   <!-- Creations Section -->
-  <section id="creations" class="py-24 px-6 relative bg-[var(--gunmetal)] bg-opacity-30 fade-in-section">
+  <section id="creations" class="py-24 px-6 relative fade-in-section">
     <div class="max-w-6xl mx-auto">
-      <h2 class="mono text-2xl text-[var(--neon-cyan)] mb-12 uppercase tracking-widest">04. Artifacts</h2>
+      <h2 class="mono text-2xl text-[var(--neon-cyan)] mb-12 uppercase tracking-widest">04. ARTIFACTS</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- CIVI-Connect Card -->
@@ -734,59 +674,62 @@
 
   <script>
     // Initialize Lucide Icons
-                lucide.createIcons();
+    lucide.createIcons();
 
-                // Smooth fade-in on scroll
-                const fadeInSections = document.querySelectorAll('.fade-in-section');
-                
-                const fadeInObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('is-visible');
-                            fadeInObserver.unobserve(entry.target);
-                        }
-                    });
-                }, { threshold: 0.1 });
+    // Smooth fade-in on scroll
+    const fadeInSections = document.querySelectorAll('.fade-in-section');
+    
+    const fadeInObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          fadeInObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
 
-                fadeInSections.forEach(section => {
-                    fadeInObserver.observe(section);
-                });
+    fadeInSections.forEach(section => {
+      fadeInObserver.observe(section);
+    });
 
-                // Smooth scroll for navigation links
-                document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-                    anchor.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        const targetId = this.getAttribute('href');
-                        if (targetId === '#') return;
-                        
-                        const targetElement = document.querySelector(targetId);
-                        if (targetElement) {
-                            window.scrollTo({
-                                top: targetElement.offsetTop - 80,
-                                behavior: 'smooth'
-                            });
-                        }
-                    });
-                });
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href === '#') return;
+        
+        e.preventDefault();
+        
+        const targetElement = document.querySelector(href);
+        if (targetElement) {
+          // Calculate offset considering the fixed navbar
+          const navbarHeight = 80;
+          const targetPosition = targetElement.offsetTop - navbarHeight;
+          
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
 
-                // Fix for carousel infinite loop - Ensure animation restarts properly
-                const frontendTrack = document.querySelector('.frontend-track');
-                const backendTrack = document.querySelector('.backend-track');
+    // Fix for carousel infinite loop
+    const frontendTrack = document.querySelector('.frontend-track');
+    const backendTrack = document.querySelector('.backend-track');
 
-                // Restart animation to prevent jank
-                const restartAnimation = (element) => {
-                    element.style.animation = 'none';
-                    element.offsetHeight; // Trigger reflow
-                    element.style.animation = null;
-                };
+    // Restart animation to prevent jank
+    const restartAnimation = (element) => {
+      element.style.animation = 'none';
+      element.offsetHeight; // Trigger reflow
+      element.style.animation = null;
+    };
 
-                // Restart animations every 5 minutes to prevent any potential glitches
-                setInterval(() => {
-                    restartAnimation(frontendTrack);
-                    restartAnimation(backendTrack);
-                }, 300000); // 5 minutes
-
-                // Remove the game card click handler since we removed the game card
+    // Restart animations every 5 minutes to prevent any potential glitches
+    setInterval(() => {
+      restartAnimation(frontendTrack);
+      restartAnimation(backendTrack);
+    }, 300000); // 5 minutes
   </script>
 </body>
 
