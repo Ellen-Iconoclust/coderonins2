@@ -74,11 +74,11 @@
 
     /* Animation States */
     .loaded .bracket-left {
-      transform: translateX(-220px);
+      transform: translateX(-70px);
     }
 
     .loaded .bracket-right {
-      transform: translateX(220px);
+      transform: translateX(70px);
     }
 
     .loaded .team-name-reveal {
@@ -89,11 +89,13 @@
     /* Content Fade In */
     #main-content {
       opacity: 0;
-      transition: opacity 1.5s ease-out 0.5s;
+      transform: translateY(20px);
+      transition: opacity 1.5s ease-out 0.5s, transform 1s ease-out 0.5s;
     }
 
     .content-visible #main-content {
       opacity: 1;
+      transform: translateY(0);
     }
 
     /* Subtle Glow Effect */
@@ -228,9 +230,12 @@
 
     /* Physics animation for tag pills */
     @keyframes bounce {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: translateY(0);
       }
+
       50% {
         transform: translateY(-8px);
       }
@@ -347,7 +352,7 @@
         gap: 12px;
         width: 100%;
       }
-      
+
       .hero-btn {
         padding: 14px 28px !important;
         font-size: 0.95rem !important;
@@ -355,67 +360,67 @@
         width: 100%;
         max-width: 280px;
       }
-      
+
       .common-skill-item {
         padding: 12px !important;
         min-height: auto !important;
       }
-      
+
       .common-skill-icon {
         width: 20px !important;
         height: 20px !important;
         flex-shrink: 0 !important;
       }
-      
+
       .common-skill-text {
         font-size: 0.8rem !important;
         white-space: nowrap !important;
         overflow: hidden !important;
         text-overflow: ellipsis !important;
       }
-      
+
       .skill-circle {
         width: 75px;
         height: 75px;
         margin: 0 10px;
       }
-      
+
       .skill-circle i {
         width: 20px;
         height: 20px;
       }
-      
+
       .team-member-card {
         padding: 16px !important;
       }
-      
+
       .team-member-icon {
         width: 48px !important;
         height: 48px !important;
       }
-      
+
       /* Loading animation adjustments for mobile */
       .loader-bracket {
         font-size: 3rem !important;
       }
-      
+
       .team-name-reveal {
         font-size: 2.5rem !important;
       }
-      
+
       .loaded .bracket-left {
-        transform: translateX(-140px) !important;
+        transform: translateX(-45px) !important;
       }
-      
+
       .loaded .bracket-right {
-        transform: translateX(140px) !important;
+        transform: translateX(45px) !important;
       }
-      
+
       .common-skills-grid {
         grid-template-columns: repeat(2, 1fr);
       }
     }
-    
+
     @media (max-width: 480px) {
       .hero-btn {
         padding: 12px 24px !important;
@@ -423,15 +428,15 @@
         min-width: 140px !important;
         max-width: 240px;
       }
-      
+
       .common-skill-item {
         padding: 10px !important;
       }
-      
+
       .common-skill-text {
         font-size: 0.75rem !important;
       }
-      
+
       .common-skills-grid {
         grid-template-columns: 1fr;
       }
@@ -456,18 +461,16 @@
       letter-spacing: -0.03em !important;
     }
 
-    /* Footer social icons centering */
-    .footer-social-icons {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 24px;
+    /* Hero text animation */
+    .hero-text {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease-out, transform 1s ease-out;
     }
 
-    @media (max-width: 768px) {
-      .footer-social-icons {
-        gap: 20px;
-      }
+    .hero-text-visible {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
@@ -478,7 +481,7 @@
   <div id="loader">
     <div class="relative flex items-center justify-center">
       <span class="loader-bracket bracket-left mono">&lt;</span>
-      <div class="team-name-reveal mono">CODE RONINS</div>
+      <div class="team-name-reveal mono">CR</div>
       <span class="loader-bracket bracket-right mono">&gt;</span>
     </div>
   </div>
@@ -486,707 +489,727 @@
   <!-- Main Content -->
   <main id="main-content" class="min-h-screen flex flex-col">
 
-  <!-- Header / Navbar -->
-  <nav class="fixed w-full z-50 p-6 flex justify-between items-center max-w-7xl mx-auto w-full bg-black/80 backdrop-blur-sm">
-    <div class="mono font-bold text-xl tracking-tighter">
-      &lt;CR/&gt;
-    </div>
-    <div class="hidden md:flex gap-8 text-sm uppercase tracking-widest text-zinc-400">
-      <a href="#philosophy" class="hover:text-white transition-colors">Philosophy</a>
-      <a href="#skills" class="hover:text-white transition-colors">Skills</a>
-      <a href="#team" class="hover:text-white transition-colors">Team</a>
-      <a href="#creations" class="hover:text-white transition-colors">Creations</a>
-    </div>
-    <a href="#join"
-      class="mono text-xs border border-zinc-700 px-4 py-2 text-zinc-400 hover:bg-zinc-900 hover:text-white transition-all rounded-full">
-      CONNECT
-    </a>
-  </nav>
-
-  <!-- Hero Section -->
-  <section class="relative min-h-screen flex items-center justify-center pt-20 px-6 overflow-hidden fade-in-section">
-    <div class="max-w-4xl text-center z-10">
-      <div class="inline-block px-3 py-1 border border-zinc-800 rounded-full text-xs mono text-zinc-500 mb-8 uppercase tracking-widest">
-        Masterless Developers Building The Future
+    <!-- Header / Navbar -->
+    <nav
+      class="fixed w-full z-50 p-6 flex justify-between items-center max-w-7xl mx-auto w-full bg-black/80 backdrop-blur-sm">
+      <div class="mono font-bold text-xl tracking-tighter">
+        &lt;CR/&gt;
       </div>
-      <h1 class="text-5xl md:text-8xl font-extrabold tracking-tight mb-6 max-w-4xl montserrat">
-        CODE <span class="text-zinc-500">RONINS</span>
-      </h1>
-      <p class="text-zinc-400 text-lg md:text-xl max-w-2xl mb-12 font-light leading-relaxed">
-        A collective of masterless developers dedicated to writing clean, scalable, and impactful code. Unbound by convention, we craft solutions that shape the digital future.
-      </p>
-      
-      <div class="flex flex-col sm:flex-row gap-4 justify-center hero-buttons-container">
-        <a href="#creations"
-          class="hero-btn bg-white text-black px-8 py-4 rounded-full font-semibold hover:bg-zinc-200 transition-all text-center">
-          View Artifacts
-        </a>
-        <a href="#philosophy"
-          class="hero-btn border border-zinc-700 px-8 py-4 rounded-full font-semibold hover:bg-zinc-900 transition-all text-center">
-          Our Creed
-        </a>
+      <div class="hidden md:flex gap-8 text-sm uppercase tracking-widest text-zinc-400">
+        <a href="#philosophy" class="hover:text-white transition-colors">Philosophy</a>
+        <a href="#skills" class="hover:text-white transition-colors">Skills</a>
+        <a href="#team" class="hover:text-white transition-colors">Team</a>
+        <a href="#creations" class="hover:text-white transition-colors">Creations</a>
       </div>
-    </div>
-  </section>
-
-  <!-- Philosophy -->
-  <section id="philosophy" class="py-24 px-6 relative fade-in-section">
-    <div class="max-w-4xl mx-auto">
-      <div class="mb-8">
-        <h2 class="section-title text-2xl text-white mb-2">PHILOSOPHY</h2>
-        <p class="section-subtitle text-zinc-400">Our guiding principles and development ethos.</p>
-      </div>
-      <div class="glass-card p-8 md:p-12 rounded-xl border border-zinc-800">
-        <p class="text-lg md:text-2xl leading-relaxed text-zinc-300">
-          We are a team of <span class="text-white font-semibold">Masterless Developers</span>, constantly building and
-          evolving without masters — true to our Ronin name. Each of us brings unique skills and perspectives, united by
-          our passion for creating innovative digital solutions.
-        </p>
-        <p class="text-lg md:text-2xl mt-6 leading-relaxed text-zinc-300">
-          We build not for glory, but for <span class="text-white">Impact</span> — crafting code that
-          solves real problems and creates meaningful experiences.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Skills Section -->
-  <section id="skills" class="py-24 overflow-hidden fade-in-section">
-    <div class="max-w-6xl mx-auto px-6 mb-16">
-      <h2 class="section-title text-2xl text-white mb-2">ARSENAL</h2>
-      <p class="section-subtitle text-zinc-400">Our technological specializations across the stack.</p>
-    </div>
-
-    <!-- Frontend Carousel -->
-    <div class="mb-12">
-      <h3 class="mono text-center text-sm mb-6 uppercase tracking-widest opacity-90 text-white">Frontend &
-        Mobile</h3>
-      <div class="carousel-container">
-        <div class="carousel-track frontend-track">
-          <!-- Frontend skills - 5 repeats for seamless infinite loop -->
-          <div class="skill-circle">
-            <i data-lucide="layout" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">HTML5</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="palette" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">CSS3</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="code-2" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">JS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="smartphone" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">R-NATIVE</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="file-json" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">TS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="cpu" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">REACT</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="box" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">NEXT.JS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="zap" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">VUE</span>
-          </div>
-          <!-- Repeat 1 -->
-          <div class="skill-circle">
-            <i data-lucide="layout" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">HTML5</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="palette" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">CSS3</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="code-2" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">JS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="smartphone" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">R-NATIVE</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="file-json" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">TS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="cpu" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">REACT</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="box" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">NEXT.JS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="zap" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">VUE</span>
-          </div>
-           <div class="skill-circle">
-            <i data-lucide="layout" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">HTML5</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="palette" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">CSS3</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="code-2" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">JS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="smartphone" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">R-NATIVE</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="file-json" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">TS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="cpu" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">REACT</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="box" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">NEXT.JS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="zap" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">VUE</span>
-          </div>
-           <div class="skill-circle">
-            <i data-lucide="layout" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">HTML5</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="palette" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">CSS3</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="code-2" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">JS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="smartphone" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">R-NATIVE</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="file-json" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">TS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="cpu" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">REACT</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="box" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">NEXT.JS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="zap" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">VUE</span>
-          </div>
-           <div class="skill-circle">
-            <i data-lucide="layout" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">HTML5</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="palette" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">CSS3</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="code-2" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">JS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="smartphone" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">R-NATIVE</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="file-json" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">TS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="cpu" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">REACT</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="box" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">NEXT.JS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="zap" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">VUE</span>
-          </div>
-           <div class="skill-circle">
-            <i data-lucide="layout" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">HTML5</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="palette" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">CSS3</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="code-2" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">JS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="smartphone" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">R-NATIVE</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="file-json" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">TS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="cpu" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">REACT</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="box" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">NEXT.JS</span>
-          </div>
-          <div class="skill-circle">
-            <i data-lucide="zap" class="text-white mb-1"></i>
-            <span class="mono text-[10px]">VUE</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Backend Carousel -->
-    <div class="mb-24">
-      <h3 class="mono text-center text-sm mb-6 uppercase tracking-widest opacity-80 text-zinc-400">Backend &
-        Logic</h3>
-      <div class="carousel-container">
-        <div class="carousel-track backend-track">
-          <!-- Backend skills - 5 repeats for seamless infinite loop -->
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="server" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">NODEJS</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="container" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">FLASK</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="database" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">POSTGRES</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="flame" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">FIREBASE</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="webhook" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">REST API</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="git-branch" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">GIT</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="box" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">DOCKER</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="cloud" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">AWS</span>
-          </div>
-          <!-- Repeat 1 -->
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="server" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">NODEJS</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="container" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">FLASK</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="database" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">POSTGRES</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="flame" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">FIREBASE</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="webhook" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">REST API</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="git-branch" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">GIT</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="box" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">DOCKER</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="cloud" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">AWS</span>
-          </div>
-           <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="server" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">NODEJS</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="container" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">FLASK</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="database" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">POSTGRES</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="flame" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">FIREBASE</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="webhook" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">REST API</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="git-branch" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">GIT</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="box" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">DOCKER</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="cloud" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">AWS</span>
-          </div>
-           <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="server" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">NODEJS</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="container" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">FLASK</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="database" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">POSTGRES</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="flame" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">FIREBASE</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="webhook" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">REST API</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="git-branch" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">GIT</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="box" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">DOCKER</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="cloud" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">AWS</span>
-          </div>
-           <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="server" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">NODEJS</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="container" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">FLASK</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="database" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">POSTGRES</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="flame" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">FIREBASE</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="webhook" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">REST API</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="git-branch" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">GIT</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="box" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">DOCKER</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="cloud" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">AWS</span>
-          </div>
-           <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="server" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">NODEJS</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="container" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">FLASK</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="database" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">POSTGRES</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="flame" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">FIREBASE</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="webhook" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">REST API</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="git-branch" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">GIT</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="box" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">DOCKER</span>
-          </div>
-          <div class="skill-circle" style="border-color: #a1a1aa;">
-            <i data-lucide="cloud" class="text-zinc-400 mb-1"></i>
-            <span class="mono text-[10px]">AWS</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Common Skills Section -->
-    <div class="max-w-4xl mx-auto px-6">
-      <h3 class="mono text-center text-sm mb-6 uppercase tracking-widest opacity-90 text-white">COMMON SKILLS</h3>
-      <div class="common-skills-grid">
-        <div class="common-skill-item">
-          <div class="common-skill-icon">
-            <i data-lucide="search" class="text-white"></i>
-          </div>
-          <div class="common-skill-text">Research</div>
-        </div>
-        
-        <div class="common-skill-item">
-          <div class="common-skill-icon">
-            <i data-lucide="languages" class="text-white"></i>
-          </div>
-          <div class="common-skill-text">Multilanguage</div>
-        </div>
-        
-        <div class="common-skill-item">
-          <div class="common-skill-icon">
-            <i data-lucide="presentation" class="text-white"></i>
-          </div>
-          <div class="common-skill-text">Presentation</div>
-        </div>
-        
-        <div class="common-skill-item">
-          <div class="common-skill-icon">
-            <i data-lucide="shield" class="text-white"></i>
-          </div>
-          <div class="common-skill-text">Leadership</div>
-        </div>
-        
-        <div class="common-skill-item">
-          <div class="common-skill-icon">
-            <i data-lucide="users" class="text-white"></i>
-          </div>
-          <div class="common-skill-text">Collaboration</div>
-        </div>
-        
-        <div class="common-skill-item">
-          <div class="common-skill-icon">
-            <i data-lucide="lightbulb" class="text-white"></i>
-          </div>
-          <div class="common-skill-text">Problem Solving</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Team Section -->
-  <section id="team" class="py-24 bg-black relative fade-in-section">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="mb-12">
-        <h2 class="ronins-section-title text-2xl text-white mb-2">THE RONINS</h2>
-        <p class="section-subtitle text-zinc-400 mt-2">A collective of unique talents, unbound by convention.</p>
-      </div>
-
-      <div class="mb-8">
-        <div
-          class="inline-block text-white mono text-xs uppercase tracking-widest bg-zinc-900/50 px-3 py-1 border border-zinc-700 rounded-full">
-          Current Squad Count: 05
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Team Members -->
-        <div class="team-member-card glass-card p-6 rounded-xl group border border-zinc-800">
-          <div
-            class="team-member-icon w-16 h-16 bg-zinc-900 border border-white flex items-center justify-center mb-6 transform group-hover:rotate-12 transition rounded-full">
-            <i data-lucide="user" class="text-white"></i>
-          </div>
-          <h3 class="text-xl font-bold mono text-white uppercase">Ellen</h3>
-          <p class="text-white text-sm mono mb-4">Team Leader & Lead Developer</p>
-          <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
-          <p class="text-xs text-zinc-400 uppercase tracking-wider">Status: ACTIVE_COMMANDER</p>
-        </div>
-
-        <div class="team-member-card glass-card p-6 rounded-xl group border border-zinc-800">
-          <div
-            class="team-member-icon w-16 h-16 bg-zinc-900 border border-white flex items-center justify-center mb-6 transform group-hover:rotate-12 transition rounded-full">
-            <i data-lucide="microscope" class="text-white"></i>
-          </div>
-          <h3 class="text-xl font-bold mono text-white uppercase">Karmughilan</h3>
-          <p class="text-white text-sm mono mb-4">Researcher & Project Manager</p>
-          <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
-          <p class="text-xs text-zinc-400 uppercase tracking-wider">Status: INTEL_SPECIALIST</p>
-        </div>
-
-        <div class="team-member-card glass-card p-6 rounded-xl group border border-zinc-800">
-          <div
-            class="team-member-icon w-16 h-16 bg-zinc-900 border border-white flex items-center justify-center mb-6 transform group-hover:rotate-12 transition rounded-full">
-            <i data-lucide="monitor" class="text-white"></i>
-          </div>
-          <h3 class="text-xl font-bold mono text-white uppercase">Shahana</h3>
-          <p class="text-white text-sm mono mb-4">Project Presenter & Frontend Developer</p>
-          <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
-          <p class="text-xs text-zinc-400 uppercase tracking-wider">Status: UI_ARCHITECT</p>
-        </div>
-
-        <div class="team-member-card glass-card p-6 rounded-xl group border border-zinc-800">
-          <div
-            class="team-member-icon w-16 h-16 bg-zinc-900 border border-white flex items-center justify-center mb-6 transform group-hover:rotate-12 transition rounded-full">
-            <i data-lucide="layers" class="text-white"></i>
-          </div>
-          <h3 class="text-xl font-bold mono text-white uppercase">Nishanth</h3>
-          <p class="text-white text-sm mono mb-4">Full Stack Developer</p>
-          <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
-          <p class="text-xs text-zinc-400 uppercase tracking-wider">Status: OMNI_DEVELOPER</p>
-        </div>
-
-        <div class="team-member-card glass-card p-6 rounded-xl group border border-zinc-800">
-          <div
-            class="team-member-icon w-16 h-16 bg-zinc-900 border border-white flex items-center justify-center mb-6 transform group-hover:rotate-12 transition rounded-full">
-            <i data-lucide="database" class="text-white"></i>
-          </div>
-          <h3 class="text-xl font-bold mono text-white uppercase">Soundarya</h3>
-          <p class="text-white text-sm mono mb-4">Backend Developer</p>
-          <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
-          <p class="text-xs text-zinc-400 uppercase tracking-wider">Status: CORE_ENGINEER</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Creations Section -->
-  <section id="creations" class="py-24 px-6 relative fade-in-section">
-    <div class="max-w-6xl mx-auto">
-      <div class="mb-12">
-        <h2 class="section-title text-2xl text-white mb-2">ARTIFACTS</h2>
-        <p class="section-subtitle text-zinc-400">Our latest projects and innovations.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <!-- CIVI-Connect Card -->
-        <div class="project-card glass-card p-8 rounded-xl border border-zinc-800 flex flex-col h-full">
-          <div class="flex justify-between items-start mb-6">
-            <div class="w-14 h-14 bg-white flex items-center justify-center rounded-full">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
-                stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-                <line x1="12" y1="18" x2="12.01" y2="18" />
-              </svg>
-            </div>
-          </div>
-          <h3 class="text-xl font-bold mono text-white mb-3 uppercase tracking-tight">CIVI-Connect</h3>
-          <p class="text-sm text-zinc-300 mb-6 flex-grow leading-relaxed">
-            A revolutionary mobile application that bridges the gap between citizens and local government services.
-            Enabling efficient communication and real-time updates for community development.
-          </p>
-          <div class="flex flex-wrap gap-2 mt-auto">
-            <span class="tag-pill">React Native</span>
-            <span class="tag-pill">Flask</span>
-            <span class="tag-pill">PostgreSQL</span>
-            <span class="tag-pill">Firebase</span>
-          </div>
-        </div>
-
-        <!-- PromptBud Card -->
-        <div class="project-card glass-card p-8 rounded-xl border border-zinc-800 flex flex-col h-full">
-          <div class="flex justify-between items-start mb-6">
-            <div class="w-14 h-14 bg-zinc-500 flex items-center justify-center rounded-full">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
-                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polygon
-                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-              </svg>
-            </div>
-            <a href="https://promptbud.vercel.app" target="_blank" rel="noopener noreferrer">
-              <i data-lucide="external-link" class="w-5 h-5 text-zinc-300 cursor-pointer hover:text-white transition"></i>
-            </a>
-          </div>
-          <h3 class="text-xl font-bold mono text-white mb-3 uppercase tracking-tight">PromptBud</h3>
-          <p class="text-sm text-zinc-300 mb-6 flex-grow leading-relaxed">
-            A revolutionary platform designed for AI enthusiasts, prompt engineers, and creative minds to discover,
-            share, and collaborate on the most effective AI prompts.
-          </p>
-          <div class="flex flex-wrap gap-2 mt-auto">
-            <span class="tag-pill" style="border-color: #a1a1aa; color: #d4d4d8; background: rgba(255,255,255,0.1)">AI/LLM</span>
-            <span class="tag-pill" style="border-color: #a1a1aa; color: #d4d4d8; background: rgba(255,255,255,0.1)">Collaborative</span>
-            <span class="tag-pill" style="border-color: #a1a1aa; color: #d4d4d8; background: rgba(255,255,255,0.1)">Next.js</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Join Our Journey Section -->
-  <section id="join" class="py-24 border-t border-zinc-900 bg-zinc-950/50 relative overflow-hidden fade-in-section">
-    <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
-      <h2 class="text-4xl md:text-5xl font-bold mb-8 montserrat uppercase tracking-tighter text-white">Join Our Journey</h2>
-      <p class="text-lg text-zinc-300 mb-10 leading-relaxed">
-        Ready to build something extraordinary together? We're always looking for new challenges and opportunities to
-        create impactful solutions. Let's combine our skills and vision to build the future.
-      </p>
-      <a href="mailto:coderonins@gmail.com"
-        class="inline-block bg-white text-black px-8 py-4 rounded-full font-semibold hover:bg-zinc-200 transition-all text-base">
-        START A PROJECT
+      <a href="#join"
+        class="mono text-xs border border-zinc-700 px-4 py-2 text-zinc-400 hover:bg-zinc-900 hover:text-white transition-all rounded-full">
+        CONNECT
       </a>
-    </div>
-  </section>
+    </nav>
 
-  <!-- Footer -->
-  <footer class="p-8 border-t border-zinc-900 text-zinc-600 text-sm">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-      <div class="flex items-center space-x-2">
-        <div class="mono font-bold text-xl tracking-tighter">
-          &lt;CR/&gt;
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 px-6 overflow-hidden fade-in-section">
+      <div class="max-w-4xl text-center z-10">
+        <div
+          class="inline-block px-3 py-1 border border-zinc-800 rounded-full text-xs mono text-zinc-500 mb-8 uppercase tracking-widest hero-text">
+          Masterless Developers Building The Future
+        </div>
+        <h1 class="text-5xl md:text-8xl font-extrabold tracking-tight mb-6 max-w-4xl montserrat hero-text"
+          style="transition-delay: 0.1s;">
+          CODE <span class="text-zinc-500">RONINS</span>
+        </h1>
+        <p class="text-zinc-400 text-lg md:text-xl max-w-2xl mb-12 font-light leading-relaxed hero-text"
+          style="transition-delay: 0.2s;">
+          A collective of masterless developers dedicated to writing clean, scalable, and impactful code. Unbound by
+          convention, we craft solutions that shape the digital future.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center hero-buttons-container hero-text"
+          style="transition-delay: 0.3s;">
+          <a href="#creations"
+            class="hero-btn bg-white text-black px-8 py-4 rounded-full font-semibold hover:bg-zinc-200 transition-all text-center">
+            View Artifacts
+          </a>
+          <a href="#philosophy"
+            class="hero-btn border border-zinc-700 px-8 py-4 rounded-full font-semibold hover:bg-zinc-900 transition-all text-center">
+            Our Creed
+          </a>
         </div>
       </div>
-      
-      <div class="footer-social-icons">
-        <a href="#" class="hover:text-zinc-400 transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
-        <a href="#" class="hover:text-zinc-400 transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
-        <a href="#" class="hover:text-zinc-400 transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
-        <a href="mailto:coderonins@gmail.com" class="hover:text-zinc-400 transition-colors"><i data-lucide="mail" class="w-5 h-5"></i></a>
+    </section>
+
+    <!-- Philosophy -->
+    <section id="philosophy" class="py-24 px-6 relative fade-in-section">
+      <div class="max-w-4xl mx-auto">
+        <div class="mb-8">
+          <h2 class="section-title text-2xl text-white mb-2">PHILOSOPHY</h2>
+          <p class="text-zinc-400 montserrat font-medium">Our guiding principles and development ethos.</p>
+        </div>
+        <div class="glass-card p-8 md:p-12 rounded-xl border border-zinc-800">
+          <p class="text-lg md:text-2xl leading-relaxed text-zinc-300 montserrat font-medium">
+            We are a team of <span class="text-white font-semibold">Masterless Developers</span>, constantly building
+            and
+            evolving without masters — true to our Ronin name. Each of us brings unique skills and perspectives, united
+            by
+            our passion for creating innovative digital solutions.
+          </p>
+          <p class="text-lg md:text-2xl mt-6 leading-relaxed text-zinc-300 montserrat font-medium">
+            We build not for glory, but for <span class="text-white">Impact</span> — crafting code that
+            solves real problems and creates meaningful experiences.
+          </p>
+        </div>
       </div>
-      
-      <p class="mono text-[10px] uppercase tracking-widest">
-        &copy; 2026 CODE_RONINS
-      </p>
-    </div>
-  </footer>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-24 overflow-hidden fade-in-section">
+      <div class="max-w-6xl mx-auto px-6 mb-16">
+        <h2 class="section-title text-2xl text-white mb-2">ARSENAL</h2>
+        <p class="section-subtitle text-zinc-400">Our technological specializations across the stack.</p>
+      </div>
+
+      <!-- Frontend Carousel -->
+      <div class="mb-12">
+        <h3 class="mono text-center text-sm mb-6 uppercase tracking-widest opacity-90 text-white">Frontend &
+          Mobile</h3>
+        <div class="carousel-container">
+          <div class="carousel-track frontend-track">
+            <!-- Frontend skills - 5 repeats for seamless infinite loop -->
+            <div class="skill-circle">
+              <i data-lucide="layout" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">HTML5</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="palette" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">CSS3</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="code-2" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">JS</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="smartphone" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">R-NATIVE</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="file-json" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">TS</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="cpu" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">REACT</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="box" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">NEXT.JS</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="zap" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">VUE</span>
+            </div>
+            <!-- Repeat 1 -->
+            <div class="skill-circle">
+              <i data-lucide="layout" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">HTML5</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="palette" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">CSS3</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="code-2" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">JS</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="smartphone" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">R-NATIVE</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="file-json" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">TS</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="cpu" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">REACT</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="box" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">NEXT.JS</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="zap" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">VUE</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="layout" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">HTML5</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="palette" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">CSS3</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="code-2" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">JS</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="smartphone" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">R-NATIVE</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="file-json" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">TS</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="cpu" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">REACT</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="box" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">NEXT.JS</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="zap" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">VUE</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="layout" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">HTML5</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="palette" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">CSS3</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="code-2" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">JS</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="smartphone" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">R-NATIVE</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="file-json" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">TS</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="cpu" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">REACT</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="box" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">NEXT.JS</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="zap" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">VUE</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="layout" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">HTML5</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="palette" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">CSS3</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="code-2" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">JS</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="smartphone" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">R-NATIVE</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="file-json" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">TS</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="cpu" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">REACT</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="box" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">NEXT.JS</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="zap" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">VUE</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="layout" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">HTML5</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="palette" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">CSS3</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="code-2" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">JS</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="smartphone" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">R-NATIVE</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="file-json" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">TS</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="cpu" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">REACT</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="box" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">NEXT.JS</span>
+            </div>
+            <div class="skill-circle">
+              <i data-lucide="zap" class="text-white mb-1"></i>
+              <span class="mono text-[10px]">VUE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Backend Carousel -->
+      <div class="mb-24">
+        <h3 class="mono text-center text-sm mb-6 uppercase tracking-widest opacity-80 text-zinc-400">Backend &
+          Logic</h3>
+        <div class="carousel-container">
+          <div class="carousel-track backend-track">
+            <!-- Backend skills - 5 repeats for seamless infinite loop -->
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="server" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">NODEJS</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="container" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">FLASK</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="database" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">POSTGRES</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="flame" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">FIREBASE</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="webhook" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">REST API</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="git-branch" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">GIT</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="box" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">DOCKER</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="cloud" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">AWS</span>
+            </div>
+            <!-- Repeat 1 -->
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="server" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">NODEJS</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="container" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">FLASK</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="database" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">POSTGRES</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="flame" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">FIREBASE</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="webhook" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">REST API</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="git-branch" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">GIT</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="box" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">DOCKER</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="cloud" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">AWS</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="server" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">NODEJS</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="container" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">FLASK</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="database" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">POSTGRES</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="flame" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">FIREBASE</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="webhook" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">REST API</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="git-branch" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">GIT</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="box" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">DOCKER</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="cloud" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">AWS</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="server" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">NODEJS</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="container" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">FLASK</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="database" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">POSTGRES</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="flame" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">FIREBASE</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="webhook" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">REST API</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="git-branch" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">GIT</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="box" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">DOCKER</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="cloud" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">AWS</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="server" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">NODEJS</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="container" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">FLASK</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="database" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">POSTGRES</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="flame" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">FIREBASE</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="webhook" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">REST API</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="git-branch" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">GIT</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="box" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">DOCKER</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="cloud" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">AWS</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="server" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">NODEJS</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="container" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">FLASK</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="database" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">POSTGRES</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="flame" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">FIREBASE</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="webhook" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">REST API</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="git-branch" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">GIT</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="box" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">DOCKER</span>
+            </div>
+            <div class="skill-circle" style="border-color: #a1a1aa;">
+              <i data-lucide="cloud" class="text-zinc-400 mb-1"></i>
+              <span class="mono text-[10px]">AWS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Common Skills Section -->
+      <div class="max-w-4xl mx-auto px-6">
+        <h3 class="mono text-center text-sm mb-6 uppercase tracking-widest opacity-90 text-white">COMMON SKILLS</h3>
+        <div class="common-skills-grid">
+          <div class="common-skill-item">
+            <div class="common-skill-icon">
+              <i data-lucide="search" class="text-white"></i>
+            </div>
+            <div class="common-skill-text">Research</div>
+          </div>
+
+          <div class="common-skill-item">
+            <div class="common-skill-icon">
+              <i data-lucide="languages" class="text-white"></i>
+            </div>
+            <div class="common-skill-text">Multilanguage</div>
+          </div>
+
+          <div class="common-skill-item">
+            <div class="common-skill-icon">
+              <i data-lucide="presentation" class="text-white"></i>
+            </div>
+            <div class="common-skill-text">Presentation</div>
+          </div>
+
+          <div class="common-skill-item">
+            <div class="common-skill-icon">
+              <i data-lucide="shield" class="text-white"></i>
+            </div>
+            <div class="common-skill-text">Leadership</div>
+          </div>
+
+          <div class="common-skill-item">
+            <div class="common-skill-icon">
+              <i data-lucide="users" class="text-white"></i>
+            </div>
+            <div class="common-skill-text">Collaboration</div>
+          </div>
+
+          <div class="common-skill-item">
+            <div class="common-skill-icon">
+              <i data-lucide="lightbulb" class="text-white"></i>
+            </div>
+            <div class="common-skill-text">Problem Solving</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="py-24 bg-black relative fade-in-section">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="mb-12">
+          <h2 class="ronins-section-title text-2xl text-white mb-2">THE RONINS</h2>
+          <p class="section-subtitle text-zinc-400 mt-2">A collective of unique talents, unbound by convention.</p>
+        </div>
+
+        <div class="mb-8">
+          <div
+            class="inline-block text-white mono text-xs uppercase tracking-widest bg-zinc-900/50 px-3 py-1 border border-zinc-700 rounded-full">
+            Current Squad Count: 05
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Team Members -->
+          <div class="team-member-card glass-card p-6 rounded-xl group border border-zinc-800">
+            <div
+              class="team-member-icon w-16 h-16 bg-zinc-900 border border-white flex items-center justify-center mb-6 transform group-hover:rotate-12 transition rounded-full">
+              <i data-lucide="user" class="text-white"></i>
+            </div>
+            <h3 class="text-xl font-bold mono text-white uppercase">Ellen</h3>
+            <p class="text-white text-sm mono mb-4">Team Leader & Lead Developer</p>
+            <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
+            <p class="text-xs text-zinc-400 uppercase tracking-wider">Status: ACTIVE_COMMANDER</p>
+          </div>
+
+          <div class="team-member-card glass-card p-6 rounded-xl group border border-zinc-800">
+            <div
+              class="team-member-icon w-16 h-16 bg-zinc-900 border border-white flex items-center justify-center mb-6 transform group-hover:rotate-12 transition rounded-full">
+              <i data-lucide="microscope" class="text-white"></i>
+            </div>
+            <h3 class="text-xl font-bold mono text-white uppercase">Karmughilan</h3>
+            <p class="text-white text-sm mono mb-4">Researcher & Project Manager</p>
+            <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
+            <p class="text-xs text-zinc-400 uppercase tracking-wider">Status: INTEL_SPECIALIST</p>
+          </div>
+
+          <div class="team-member-card glass-card p-6 rounded-xl group border border-zinc-800">
+            <div
+              class="team-member-icon w-16 h-16 bg-zinc-900 border border-white flex items-center justify-center mb-6 transform group-hover:rotate-12 transition rounded-full">
+              <i data-lucide="monitor" class="text-white"></i>
+            </div>
+            <h3 class="text-xl font-bold mono text-white uppercase">Shahana</h3>
+            <p class="text-white text-sm mono mb-4">Project Presenter & Frontend Developer</p>
+            <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
+            <p class="text-xs text-zinc-400 uppercase tracking-wider">Status: UI_ARCHITECT</p>
+          </div>
+
+          <div class="team-member-card glass-card p-6 rounded-xl group border border-zinc-800">
+            <div
+              class="team-member-icon w-16 h-16 bg-zinc-900 border border-white flex items-center justify-center mb-6 transform group-hover:rotate-12 transition rounded-full">
+              <i data-lucide="layers" class="text-white"></i>
+            </div>
+            <h3 class="text-xl font-bold mono text-white uppercase">Nishanth</h3>
+            <p class="text-white text-sm mono mb-4">Full Stack Developer</p>
+            <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
+            <p class="text-xs text-zinc-400 uppercase tracking-wider">Status: OMNI_DEVELOPER</p>
+          </div>
+
+          <div class="team-member-card glass-card p-6 rounded-xl group border border-zinc-800">
+            <div
+              class="team-member-icon w-16 h-16 bg-zinc-900 border border-white flex items-center justify-center mb-6 transform group-hover:rotate-12 transition rounded-full">
+              <i data-lucide="database" class="text-white"></i>
+            </div>
+            <h3 class="text-xl font-bold mono text-white uppercase">Soundarya</h3>
+            <p class="text-white text-sm mono mb-4">Backend Developer</p>
+            <div class="h-[1px] w-full bg-white opacity-10 mb-4"></div>
+            <p class="text-xs text-zinc-400 uppercase tracking-wider">Status: CORE_ENGINEER</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Creations Section -->
+    <section id="creations" class="py-24 px-6 relative fade-in-section">
+      <div class="max-w-6xl mx-auto">
+        <div class="mb-12">
+          <h2 class="section-title text-2xl text-white mb-2">ARTIFACTS</h2>
+          <p class="section-subtitle text-zinc-400">Our latest projects and innovations.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- CIVI-Connect Card -->
+          <div class="project-card glass-card p-8 rounded-xl border border-zinc-800 flex flex-col h-full">
+            <div class="flex justify-between items-start mb-6">
+              <div class="w-14 h-14 bg-white flex items-center justify-center rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                  stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                  <line x1="12" y1="18" x2="12.01" y2="18" />
+                </svg>
+              </div>
+            </div>
+            <h3 class="text-xl font-bold mono text-white mb-3 uppercase tracking-tight">CIVI-Connect</h3>
+            <p class="text-sm text-zinc-300 mb-6 flex-grow leading-relaxed">
+              A revolutionary mobile application that bridges the gap between citizens and local government services.
+              Enabling efficient communication and real-time updates for community development.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-auto">
+              <span class="tag-pill">React Native</span>
+              <span class="tag-pill">Flask</span>
+              <span class="tag-pill">PostgreSQL</span>
+              <span class="tag-pill">Firebase</span>
+            </div>
+          </div>
+
+          <!-- PromptBud Card -->
+          <div class="project-card glass-card p-8 rounded-xl border border-zinc-800 flex flex-col h-full">
+            <div class="flex justify-between items-start mb-6">
+              <div class="w-14 h-14 bg-zinc-500 flex items-center justify-center rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                  stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+              </div>
+              <a href="https://promptbud.vercel.app" target="_blank" rel="noopener noreferrer">
+                <i data-lucide="external-link" class="w-5 h-5 text-zinc-300 cursor-pointer hover:text-white transition"></i>
+              </a>
+            </div>
+            <h3 class="text-xl font-bold mono text-white mb-3 uppercase tracking-tight">PromptBud</h3>
+            <p class="text-sm text-zinc-300 mb-6 flex-grow leading-relaxed">
+              A revolutionary platform designed for AI enthusiasts, prompt engineers, and creative minds to discover,
+              share, and collaborate on the most effective AI prompts.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-auto">
+              <span class="tag-pill" style="border-color: #a1a1aa; color: #d4d4d8; background: rgba(255,255,255,0.1)">AI/LLM</span>
+              <span class="tag-pill" style="border-color: #a1a1aa; color: #d4d4d8; background: rgba(255,255,255,0.1)">Collaborative</span>
+              <span class="tag-pill" style="border-color: #a1a1aa; color: #d4d4d8; background: rgba(255,255,255,0.1)">Next.js</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Join Our Journey Section -->
+    <section id="join" class="py-24 border-t border-zinc-900 bg-zinc-950/50 relative overflow-hidden fade-in-section">
+      <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+        <h2 class="text-4xl md:text-5xl font-bold mb-8 montserrat uppercase tracking-tighter text-white">Join Our
+          Journey</h2>
+        <p class="text-lg text-zinc-300 mb-10 leading-relaxed">
+          Ready to build something extraordinary together? We're always looking for new challenges and opportunities to
+          create impactful solutions. Let's combine our skills and vision to build the future.
+        </p>
+        <a href="mailto:coderonins@gmail.com"
+          class="inline-block bg-white text-black px-8 py-4 rounded-full font-semibold hover:bg-zinc-200 transition-all text-base">
+          START A PROJECT
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="p-8 border-t border-zinc-900 text-zinc-600 text-sm relative">
+      <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+        <div class="flex items-center space-x-2">
+          <div class="mono font-bold text-xl tracking-tighter">
+            &lt;CR/&gt;
+          </div>
+        </div>
+
+        <!-- Social icons centered with absolute positioning -->
+        <div class="absolute left-1/2 transform -translate-x-1/2 hidden md:flex gap-6">
+          <a href="#" class="hover:text-zinc-400 transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
+          <a href="#" class="hover:text-zinc-400 transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+          <a href="#" class="hover:text-zinc-400 transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+          <a href="mailto:coderonins@gmail.com"
+            class="hover:text-zinc-400 transition-colors"><i data-lucide="mail" class="w-5 h-5"></i></a>
+        </div>
+
+        <!-- Mobile social icons -->
+        <div class="flex md:hidden gap-6">
+          <a href="#" class="hover:text-zinc-400 transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
+          <a href="#" class="hover:text-zinc-400 transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+          <a href="#" class="hover:text-zinc-400 transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+          <a href="mailto:coderonins@gmail.com"
+            class="hover:text-zinc-400 transition-colors"><i data-lucide="mail" class="w-5 h-5"></i></a>
+        </div>
+
+        <p class="mono text-[10px] uppercase tracking-widest">
+          &copy; 2026 CODE_RONINS
+        </p>
+      </div>
+    </footer>
 
   </main> <!-- End of main-content -->
 
@@ -1195,6 +1218,7 @@
     window.addEventListener('load', () => {
       const loader = document.getElementById('loader');
       const body = document.body;
+      const heroTexts = document.querySelectorAll('.hero-text');
 
       // Step 1: Start the "splitting" animation after a brief delay
       setTimeout(() => {
@@ -1206,6 +1230,13 @@
         loader.style.opacity = '0';
         body.classList.add('content-visible');
         body.style.overflow = 'auto'; // Re-enable scrolling
+        
+        // Animate hero texts with staggered delays
+        heroTexts.forEach((text, index) => {
+          setTimeout(() => {
+            text.classList.add('hero-text-visible');
+          }, 500 + (index * 150)); // Stagger the animations
+        });
       }, 2500);
 
       // Step 3: Remove loader from DOM to keep it clean
