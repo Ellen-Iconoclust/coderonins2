@@ -233,6 +233,81 @@
       border-color: var(--neon-cyan);
       box-shadow: 0 10px 30px rgba(102, 252, 241, 0.2);
     }
+
+    /* Mobile responsive improvements */
+    @media (max-width: 768px) {
+      /* Hero buttons - reduced size on mobile */
+      .hero-buttons-container {
+        gap: 12px;
+      }
+      
+      .hero-btn {
+        padding: 12px 24px !important;
+        font-size: 0.9rem !important;
+        min-height: auto !important;
+      }
+      
+      /* Common skills section - improved mobile layout */
+      .common-skills-grid {
+        gap: 12px !important;
+      }
+      
+      .common-skill-item {
+        padding: 12px !important;
+        min-height: auto !important;
+      }
+      
+      .common-skill-icon {
+        width: 20px !important;
+        height: 20px !important;
+        flex-shrink: 0 !important;
+      }
+      
+      .common-skill-text {
+        font-size: 0.8rem !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+      
+      /* Adjust skill circles for mobile */
+      .skill-circle {
+        width: 75px;
+        height: 75px;
+        margin: 0 10px;
+      }
+      
+      .skill-circle i {
+        width: 20px;
+        height: 20px;
+      }
+      
+      /* Team section adjustments */
+      .team-member-card {
+        padding: 16px !important;
+      }
+      
+      .team-member-icon {
+        width: 48px !important;
+        height: 48px !important;
+      }
+    }
+    
+    /* Extra small devices */
+    @media (max-width: 480px) {
+      .hero-btn {
+        padding: 10px 20px !important;
+        font-size: 0.85rem !important;
+      }
+      
+      .common-skill-item {
+        padding: 10px !important;
+      }
+      
+      .common-skill-text {
+        font-size: 0.75rem !important;
+      }
+    }
   </style>
 </head>
 
@@ -272,12 +347,12 @@
       <p class="text-xl md:text-2xl font-light mb-10 text-[var(--mist)] italic">
         Masterless Developers Building The Future
       </p>
-      <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+      <div class="flex flex-col md:flex-row items-center justify-center gap-4 hero-buttons-container">
         <a href="#creations"
-          class="glitch-btn px-8 py-4 ronin-gradient text-white mono font-bold rounded-sm w-full md:w-auto text-center">VIEW
+          class="hero-btn glitch-btn px-6 py-3 md:px-8 md:py-4 ronin-gradient text-white mono font-bold rounded-sm w-full md:w-auto text-center">VIEW
           ARTIFACTS</a>
         <a href="#philosophy"
-          class="px-8 py-4 border border-[var(--neon-cyan)] text-[var(--neon-cyan)] mono font-bold rounded-sm w-full md:w-auto hover:bg-[var(--neon-cyan)] hover:text-black transition text-center">OUR
+          class="hero-btn px-6 py-3 md:px-8 md:py-4 border border-[var(--neon-cyan)] text-[var(--neon-cyan)] mono font-bold rounded-sm w-full md:w-auto hover:bg-[var(--neon-cyan)] hover:text-black transition text-center">OUR
           CREED</a>
       </div>
     </div>
@@ -469,30 +544,30 @@
       <h3 class="mono text-center text-sm mb-6 uppercase tracking-widest opacity-90 text-[var(--neon-cyan)]">Common
         Skills</h3>
       <div
-        class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 p-6 bg-[rgba(31,40,51,0.6)] rounded-lg border border-white border-opacity-10">
-        <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
-          <i data-lucide="search" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
-          <span class="mono text-sm">Research</span>
+        class="common-skills-grid grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 p-4 md:p-6 bg-[rgba(31,40,51,0.6)] rounded-lg border border-white border-opacity-10">
+        <div class="common-skill-item glass-card p-3 md:p-4 flex items-center space-x-2 md:space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+          <i data-lucide="search" class="common-skill-icon w-5 h-5 text-[var(--neon-cyan)] flex-shrink-0"></i>
+          <span class="common-skill-text mono text-xs md:text-sm">Research</span>
         </div>
-        <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
-          <i data-lucide="languages" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
-          <span class="mono text-sm">Multilanguage</span>
+        <div class="common-skill-item glass-card p-3 md:p-4 flex items-center space-x-2 md:space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+          <i data-lucide="languages" class="common-skill-icon w-5 h-5 text-[var(--neon-cyan)] flex-shrink-0"></i>
+          <span class="common-skill-text mono text-xs md:text-sm">Multilanguage</span>
         </div>
-        <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
-          <i data-lucide="presentation" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
-          <span class="mono text-sm">Presentation</span>
+        <div class="common-skill-item glass-card p-3 md:p-4 flex items-center space-x-2 md:space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+          <i data-lucide="presentation" class="common-skill-icon w-5 h-5 text-[var(--neon-cyan)] flex-shrink-0"></i>
+          <span class="common-skill-text mono text-xs md:text-sm">Presentation</span>
         </div>
-        <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
-          <i data-lucide="users" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
-          <span class="mono text-sm">Leadership</span>
+        <div class="common-skill-item glass-card p-3 md:p-4 flex items-center space-x-2 md:space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+          <i data-lucide="users" class="common-skill-icon w-5 h-5 text-[var(--neon-cyan)] flex-shrink-0"></i>
+          <span class="common-skill-text mono text-xs md:text-sm">Leadership</span>
         </div>
-        <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
-          <i data-lucide="share-2" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
-          <span class="mono text-sm">Collaboration</span>
+        <div class="common-skill-item glass-card p-3 md:p-4 flex items-center space-x-2 md:space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+          <i data-lucide="share-2" class="common-skill-icon w-5 h-5 text-[var(--neon-cyan)] flex-shrink-0"></i>
+          <span class="common-skill-text mono text-xs md:text-sm">Collaboration</span>
         </div>
-        <div class="glass-card p-4 flex items-center space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
-          <i data-lucide="brain-circuit" class="w-5 h-5 text-[var(--neon-cyan)]"></i>
-          <span class="mono text-sm">Problem Solving</span>
+        <div class="common-skill-item glass-card p-3 md:p-4 flex items-center space-x-2 md:space-x-3 rounded-lg border-l-2 border-[var(--neon-cyan)]">
+          <i data-lucide="brain-circuit" class="common-skill-icon w-5 h-5 text-[var(--neon-cyan)] flex-shrink-0"></i>
+          <span class="common-skill-text mono text-xs md:text-sm">Problem Solving</span>
         </div>
       </div>
     </div>
@@ -516,7 +591,7 @@
         <!-- Team Members -->
         <div class="team-member-card glass-card p-6 rounded-none group border border-transparent">
           <div
-            class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
+            class="team-member-icon w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
             <i data-lucide="user" class="text-[var(--neon-cyan)]"></i>
           </div>
           <h3 class="text-xl font-bold mono text-white uppercase">Ellen</h3>
@@ -527,7 +602,7 @@
 
         <div class="team-member-card glass-card p-6 rounded-none group border border-transparent">
           <div
-            class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
+            class="team-member-icon w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
             <i data-lucide="microscope" class="text-[var(--neon-cyan)]"></i>
           </div>
           <h3 class="text-xl font-bold mono text-white uppercase">Karmughilan</h3>
@@ -538,7 +613,7 @@
 
         <div class="team-member-card glass-card p-6 rounded-none group border border-transparent">
           <div
-            class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
+            class="team-member-icon w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
             <i data-lucide="monitor" class="text-[var(--neon-cyan)]"></i>
           </div>
           <h3 class="text-xl font-bold mono text-white uppercase">Shahana</h3>
@@ -549,7 +624,7 @@
 
         <div class="team-member-card glass-card p-6 rounded-none group border border-transparent">
           <div
-            class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
+            class="team-member-icon w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
             <i data-lucide="layers" class="text-[var(--neon-cyan)]"></i>
           </div>
           <h3 class="text-xl font-bold mono text-white uppercase">Nishanth</h3>
@@ -560,7 +635,7 @@
 
         <div class="team-member-card glass-card p-6 rounded-none group border border-transparent">
           <div
-            class="w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
+            class="team-member-icon w-16 h-16 bg-[var(--gunmetal)] border border-[var(--neon-cyan)] flex items-center justify-center mb-6 transform group-hover:rotate-12 transition">
             <i data-lucide="database" class="text-[var(--neon-cyan)]"></i>
           </div>
           <h3 class="text-xl font-bold mono text-white uppercase">Soundarya</h3>
@@ -641,7 +716,7 @@
         create impactful solutions. Let's combine our skills and vision to build the future.
       </p>
       <a href="mailto:coderonins@gmail.com"
-        class="glitch-btn inline-block px-10 py-4 bg-[var(--neon-cyan)] text-black mono font-bold text-base rounded-sm hover:shadow-[0_0_30px_#66FCF1] transition-shadow duration-300">
+        class="glitch-btn inline-block px-8 py-3 md:px-10 md:py-4 bg-[var(--neon-cyan)] text-black mono font-bold text-sm md:text-base rounded-sm hover:shadow-[0_0_30px_#66FCF1] transition-shadow duration-300">
         START A PROJECT
       </a>
     </div>
